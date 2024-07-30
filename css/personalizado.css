@@ -1,0 +1,16 @@
+.custom-shadow {
+    -webkit-box-shadow: 0px 0px 83px 0px rgba(0,0,0,1);
+    -moz-box-shadow: 0px 0px 83px 0px rgba(0,0,0,1);
+    box-shadow: 0px 0px 83px 0px rgba(0,0,0,1);
+}
+
+.input-text{
+    font-family: Tahoma, Geneva, sans-serif;
+    font-size: 20px;
+    letter-spacing: 2px;
+    word-spacing: 2px;
+    color: #000000;
+    text-decoration: none;
+    font-style: italic;
+    text-transform: none;
+}

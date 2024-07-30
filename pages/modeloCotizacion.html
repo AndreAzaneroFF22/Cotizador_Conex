@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../css/tailwind.min.css">
+</head>
+<body class="bg-gray-100 font-sans antialiased" id="elementoExportar">
+
+    <div class="container mx-auto my-8 p-4 md:p-8 bg-white shadow-lg rounded-lg">
+        <div class="header flex  justify-between md:justify-between items-center mb-6">
+            <div class="flex items-center gap-6">
+                <img src="../images/logo.jpeg" class="h-12 md:h-20 mb-4 md:mb-0">
+                <h5 class="italic "><strong>CONEXIONES ESPECIALIZADAS S.A.C.</strong></h5>
+            </div>
+            <button id="exportar" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full">
+                Exportar
+            </button>
+            <button id="volver" class="bg-red-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full">
+                Volver
+            </button>
+            <div class="text-center md:text-right">
+                <p class="md:text-xl font-semibold">R.U.C. 20607137651</p>
+                <h1 class="md:text-3xl font-bold text-blue-600">COTIZACIÓN</h1>
+                <p class="text-red-500" id="nro-cotizacion"></p>
+            </div>
+        </div>
+
+        <div class="company-info mb-6 text-sm">
+            <p>El Cerrillo 272, La Molina, Lima</p>
+            <!-- <p>Correo: ventas@fesepsa.pe | cobranza@fesepsa.pe | calibracion@fesepsa.pe | comercialfesepsa@fesepsa.pe</p> -->
+            <p>Telefono: 998341469</p>
+            <!-- <p>Pag. Web: www.fesepsa.com.pe</p> -->
+        </div>
+
+        <div class="grid grid-cols-2 gap-6 mb-8">
+            <div class="columna">
+                <p><strong>Cliente:</strong> <span id="nombre-cliente" class="text-sm"></span></p>
+                <p><strong>Contacto:</strong> <span id="nombre-contacto" class="text-sm"></span></p>
+                <p><strong>Fecha Creación:</strong> <span id="fecha-creacion" class="text-sm"></span></p>
+                <!-- Más detalles del cliente aquí -->
+            </div>
+            <div class="columna">
+                <p><strong>Numero Cotizacion:</strong> <span id="numero-cotizacion" class="text-sm"></span></p>
+                <p><strong>Vendedor:</strong> <span id="vendedor-cotizacion" class="text-sm"></span></p>
+                <p><strong>Moneda:</strong> <span id="moneda-cotizacion" class="text-sm"></span></p>
+                <!-- Más detalles del vendedor aquí -->
+            </div>
+        </div>
+        
+        <div class="py-2 overflow-x-auto">
+            <div class="align-middle inline-block min-w-full shadow overflow-hidden sm:rounded-lg border-b border-gray-200">
+
+        <table class="min-w-full mb-8 text-sm border-collapse border border-gray-700">
+            <thead class="bg-gray-300">
+                <tr>
+                    <th>Item</th>
+                    <th>Código</th>
+                    <th>Descripción</th>
+                    <th>Cant.</th>
+                    <th>P. Unit</th>
+                    <th>Importe</th>
+                </tr>
+            </thead>
+            <tbody class="text-center" id="tbodyDetalle">
+            
+                <!-- Más productos aquí -->
+            </tbody>
+        </table>
+
+    </div>
+
+</div>
+
+        <p class="mb-3"><strong>CONDICIONES COMERCIALES</strong></p>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div>
+                <p><strong>Forma de Pago: </strong><span id="formaPago"></span></p>
+                <p><strong>Validez de la oferta: </strong><span id="validezOferta"></span></p>
+                <!-- Más condiciones aquí -->
+            </div>
+            <div>
+                <p><strong>OP. GRAVADAS: </strong><span id="subTotal"></span></p>
+                <p><strong>I.G.V. 18%: </strong><span id="igv"></span></p>
+                <p><strong>IMPORTE TOTAL: </strong><span id="total"></span></p>
+            </div>
+        </div>
+
+        <p class="mb-3"><strong>CONDICIONES DE PAGO Y ENTREGA</strong></p>
+        <div class="grid grid-cols-1 md:grid-cols-1 gap-6">
+            <div>
+                <p><strong>Lugar de entrega: </strong><span id="validezOferta">Almacenes del cliente en Lima.</span></p>
+                <p><strong>Condición: </strong><span id="validezOferta">Una vez recibida la orden de compra no es revocable	<br>				
+                    Se cotizan items disponibles en stock a la fecha, sujeto a variación sin responsabilidad.					
+                    </span></p>
+                <!-- Más condiciones aquí -->
+            </div>
+        </div>
+
+        <div class="py-2 overflow-x-auto">
+            <div class="align-middle inline-block min-w-full shadow overflow-hidden sm:rounded-lg border-b border-gray-200">
+        <div class="my-8">
+             <table class="min-w-full text-sm min-w-full mb-8 text-sm border-collapse border border-gray-700">
+                 <thead class="bg-gray-300">
+                      <tr>
+                           <th colspan="4" class="border border-gray-700">CUENTAS BANCARIAS</th>
+                      </tr>
+                      <tr>
+                         <th class="border border-gray-700">BANCO</th>
+                         <th class="border border-gray-700">MONEDA</th>
+                         <th class="border border-gray-700">CTA. CTE.</th>
+                         <th class="border border-gray-700">CCI</th>
+                      </tr>
+                 </thead>
+                 <tbody class="text-center">
+                      <tr>
+                         <td class="border border-gray-700"><img src="../images/bcp-logo.png" alt="" class="h-8 block m-auto"></td>
+                         <td class="border border-gray-700">SOLES</td>
+                         <td class="border border-gray-700">193-9073474-0-50</td>
+                         <td class="border border-gray-700">002-19300907347405010</td>
+                     </tr> 
+                     <tr>
+                        <td class="border border-gray-700"><img src="../images/bcp-logo.png" alt="" class="h-8 block m-auto"></td>
+                        <td class="border border-gray-700">DOLARES</td>
+                        <td class="border border-gray-700">193-8964919-1-44</td>
+                        <td class="border border-gray-700">002-19300896491914415</td>
+                    </tr> 
+                 </tbody>
+             </table>
+        </div>
+        </div>
+        </div>
+    </div>
+ 
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.9.2/html2pdf.bundle.min.js"></script>
+    <script src="../js/generarPDF.js"></script>
+    <script src="../js/exportarPDF.js"></script>
+</body>
+</html>

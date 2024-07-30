@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Conex Login</title>
+    <link href="css/tailwind.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
+    <link rel="stylesheet" href="css/personalizado.css">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+</head>
+<body class="bg-gray-100">
+    <div class="flex min-h-screen">
+        <!-- Left side with background image -->
+        <div class="w-1/2 bg-cover bg-center " style="background-image: url('images/landing.webp'); filter:grayscale(40%) "></div>
+        <!-- Right side with login form -->
+        <div class="w-1/2 flex items-center justify-center bg-neutral-200 ">
+            <div class="max-w-md w-full p-10 custom-shadow">
+                    <!-- Logo section -->
+            <div class=" items-center flex justify-center gap-x-6 mb-6">
+                <img src="images/logo.jpeg" alt="Logo" class="h-16 w-16 rounded-3xl"> 
+                <h1 class="text-gray-800 font-bold text-4xl ml-2 input-text">Conex</h1>
+            </div>
+                <form>
+                    <div class="mb-6">
+                        <label class="block text-gray-700 text-sm   mb-2 input-text" for="user">Usuario</label>
+                        <input type="text" id="user" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-transparent" placeholder="Digita tu usuario">
+                    </div>
+                    <div class="mb-6">
+                        <label class="block text-gray-700 text-sm  mb-2 input-text" for="password">Contraseña</label>
+                        <input type="password" id="password" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-transparent" placeholder="Ingresa tu contraseña">
+                    </div>
+ 
+                    <button class="w-full bg-yellow-500 text-white py-2 rounded-lg hover:bg-orange-600 transition duration-300 input-text">Iniciar Sesión</button>
+                </form>
+            </div>
+        </div>
+    </div>
+     <script src="js/login.js"></script>
+</body>
+</html>
