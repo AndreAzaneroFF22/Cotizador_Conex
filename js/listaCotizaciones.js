@@ -315,8 +315,8 @@ async function actualizarCotizacion(event) {
                 Id_Cotizacion: idCotizacion,
                 Item: item.querySelector('td:nth-child(1)').textContent,
                 Descripcion_Producto: item.querySelector('input[name="Descripcion[]"]').value,
-                Cantidad: item.querySelector('input[name="Cantidad[]"]').value,
-                Precio: item.querySelector('input[name="P_Unit[]"]').value
+                Cantidad: parseInt(item.querySelector('input[name="Cantidad[]"]').value),
+                Precio: parseFloat(item.querySelector('input[name="P_Unit[]"]').value)
             };
 
             const detalleResponse = await fetch(`https://www.pruebaconex.somee.com/api/cotizacionesdet/`, {
