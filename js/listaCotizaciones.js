@@ -281,7 +281,6 @@ async function actualizarCotizacion(event) {
     try {
         // Eliminar cabecera y detalle existentes
         await eliminarCabeceraCotizacion(idCotizacion);
-        await delay(2000);
         await eliminarDetalleCotizacion(idCotizacion);
 
         // Crear nueva cabecera
