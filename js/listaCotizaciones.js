@@ -32,32 +32,32 @@ function renderCotizaciones(page, productos) {
         row.classList.add('border', 'border-gray-300');
 
         const codigoCell = document.createElement('td');
-        codigoCell.classList.add('py-3', 'px-6','border', 'border-gray-300');
+        codigoCell.classList.add('py-3', 'px-6', 'border', 'border-gray-300');
         codigoCell.textContent = cotizacion.Id_Cotizacion;
         row.appendChild(codigoCell);
 
         const clienteCell = document.createElement('td');
-        clienteCell.classList.add('py-3', 'px-6','border', 'border-gray-300');
+        clienteCell.classList.add('py-3', 'px-6', 'border', 'border-gray-300');
         clienteCell.textContent = cotizacion.Cliente;
         row.appendChild(clienteCell);
 
         const contactoCell = document.createElement('td');
-        contactoCell.classList.add('py-3', 'px-6','border', 'border-gray-300');
+        contactoCell.classList.add('py-3', 'px-6', 'border', 'border-gray-300');
         contactoCell.textContent = cotizacion.Contacto;
         row.appendChild(contactoCell);
 
         const monedaCell = document.createElement('td');
-        monedaCell.classList.add('py-3', 'px-6','border', 'border-gray-300');
+        monedaCell.classList.add('py-3', 'px-6', 'border', 'border-gray-300');
         monedaCell.textContent = cotizacion.Moneda === "S" ? "Soles" : "Dólares";
         row.appendChild(monedaCell);
 
         const totalCell = document.createElement('td');
-        totalCell.classList.add('py-3', 'px-6','border', 'border-gray-300');
+        totalCell.classList.add('py-3', 'px-6', 'border', 'border-gray-300');
         totalCell.textContent = cotizacion.Total;
         row.appendChild(totalCell);
 
         const accionesCell = document.createElement('td');
-        accionesCell.classList.add('py-3', 'px-6','border', 'border-gray-300','flex','justify-center','gap-x-4');
+        accionesCell.classList.add('py-3', 'px-6', 'border', 'border-gray-300', 'flex', 'justify-center', 'gap-x-4');
 
         const editarButton = document.createElement('button');
         editarButton.classList.add('bg-blue-500', 'text-white', 'px-4', 'py-2', 'rounded');
@@ -175,7 +175,7 @@ async function mostrarModalEditarCotizacion(id) {
                     <input type="number" class="w-full px-3 py-2 border rounded" name="Cantidad[]" value="${detalle.Cantidad}" oninput="calculateTotal(this)">
                 </td>
                 <td class="py-2 px-4 border border-gray-300">
-                    <input type="number" step="0.01" class="w-full px-3 py-2 border rounded" name="P_Unit[]" value="${detalle.Precio}" oninput="calculateTotal(this)">
+                    <input type="number" step="0.01" class="w-full px-3 py-2 border rounded" name="P_Unit[]" value="${detalle.Precio}" oninput="calculateTotal(this)" data-original-price="${detalle.Precio}">
                 </td>
                 <td class="py-2 px-4 border border-gray-300">
                     <input type="number" step="0.01" class="w-full px-3 py-2 border rounded" name="P_Total[]" value="${detalle.Cantidad * detalle.Precio}" disabled>
@@ -356,7 +356,7 @@ document.getElementById('editar_addItem').addEventListener('click', () => {
             <input type="number" class="w-full px-3 py-2 border rounded" name="Cantidad[]" oninput="calculateTotal(this)">
         </td>
         <td class="py-2 px-4 border border-gray-300">
-            <input type="number" step="0.01" class="w-full px-3 py-2 border rounded" name="P_Unit[]" oninput="calculateTotal(this)">
+            <input type="number" step="0.01" class="w-full px-3 py-2 border rounded" name="P_Unit[]" disabled>
         </td>
         <td class="py-2 px-4 border border-gray-300">
             <input type="number" step="0.01" class="w-full px-3 py-2 border rounded" name="P_Total[]" disabled>
@@ -429,36 +429,133 @@ document.addEventListener('DOMContentLoaded', () => {
             })
             .catch(error => console.error('Error fetching contacts:', error));
     }
+
+    document.getElementById('editarTipoMonedaSelect').addEventListener('change', function () {
+        const moneda = document.getElementById('editarTipoMonedaSelect').value;
+        const tipoCambio = parseFloat(document.getElementById('editar_Tipo_Cambio').value);
+        
+        const itemsTableBody = document.getElementById('editar_itemsTableBody');
+        for (let i = 0; i < itemsTableBody.rows.length; i++) {
+            const row = itemsTableBody.rows[i];
+            const unitPriceInput = row.querySelector('input[name="P_Unit[]"]');
+            const quantityInput = row.querySelector('input[name="Cantidad[]"]');
+            const unitPrice = parseFloat(unitPriceInput.dataset.originalPrice);
+
+            if (!isNaN(unitPrice)) {
+                if (moneda === "D") {
+                    unitPriceInput.value = (unitPrice / tipoCambio).toFixed(2);
+                } else {
+                    unitPriceInput.value = unitPrice.toFixed(2);
+                }
+                calculateTotal(quantityInput);
+            }
+        }
+        
+        recalculateAllTotals();
+    });
 });
 
-function removeRow(button) {
+window.removeRow = function(button) {
     const row = button.closest('tr');
-    row.parentNode.removeChild(row);
-    updateTotalCotizacion(); // Ensure totals are updated after removing a row
+    row.remove();
+    recalculateAllTotals();
 }
 
-function calculateTotal(input) {
-    const row = input.closest('tr');
-    const cantidad = parseFloat(row.querySelector('input[name="Cantidad[]"]').value) || 0;
-    const precioUnit = parseFloat(row.querySelector('input[name="P_Unit[]"]').value) || 0;
-    const total = cantidad * precioUnit;
-    row.querySelector('input[name="P_Total[]"]').value = total.toFixed(2);
-    updateTotalCotizacion(); // Ensure totals are updated after changing quantity or price
+window.calculateTotal = function(quantityInput) {
+    const row = quantityInput.closest('tr');
+    const unitPriceInput = row.querySelector('input[name="P_Unit[]"]');
+    const totalPriceInput = row.querySelector('input[name="P_Total[]"]');
+
+    const quantity = parseFloat(quantityInput.value);
+    const unitPrice = parseFloat(unitPriceInput.value);
+
+    if (!isNaN(quantity) && !isNaN(unitPrice)) {
+        totalPriceInput.value = (quantity * unitPrice).toFixed(2);
+    } else {
+        totalPriceInput.value = '';
+    }
+
+    recalculateAllTotals();
 }
 
-function updateTotalCotizacion() {
-    const tableBody = document.getElementById('editar_itemsTableBody');
-    let totalCotizacion = 0;
-    const rows = tableBody.querySelectorAll('tr');
-    rows.forEach(row => {
-        const total = parseFloat(row.querySelector('input[name="P_Total[]"]').value) || 0;
-        totalCotizacion += total;
+function recalculateAllTotals() {
+    const itemsTableBody = document.getElementById('editar_itemsTableBody');
+    let baseImponible = 0;
+    for (let i = 0; i < itemsTableBody.rows.length; i++) {
+        const row = itemsTableBody.rows[i];
+        const totalPriceInput = row.querySelector('input[name="P_Total[]"]');
+        const totalPrice = parseFloat(totalPriceInput.value);
+        if (!isNaN(totalPrice)) {
+            baseImponible += totalPrice;
+        }
+    }
+    document.getElementById('editar_Base_Imponible').value = baseImponible.toFixed(2);
+    const igv = baseImponible * 0.18;
+    document.getElementById('editar_IGV').value = igv.toFixed(2);
+    const total = baseImponible + igv;
+    document.getElementById('editar_Total').value = total.toFixed(2);
+}
+
+function calculateBaseImponible() {
+    return parseFloat(document.getElementById('editar_Base_Imponible').value) || 0;
+}
+
+function calculateIGV() {
+    return parseFloat(document.getElementById('editar_IGV').value) || 0;
+}
+
+function calculateTotal() {
+    return parseFloat(document.getElementById('editar_Total').value) || 0;
+}
+
+let products = [];
+
+async function fetchProducts() {
+    try {
+        const response = await fetch('https://www.pruebaconex.somee.com/api/productos/activos');
+        const data = await response.json();
+        products = data; // Store the whole product objects
+    } catch (error) {
+        console.error('Error fetching products:', error);
+    }
+}
+
+fetchProducts();
+
+window.showSuggestions = function(input) {
+    const value = input.value ? input.value.toLowerCase() : '';
+    const suggestionsBox = input.nextElementSibling;
+
+    if (value.length < 1) {
+        suggestionsBox.classList.add('hidden');
+        return;
+    }
+
+    const filteredProducts = products.filter(product => product.Descripcion.toLowerCase().includes(value));
+    suggestionsBox.innerHTML = '';
+    filteredProducts.forEach(product => {
+        const div = document.createElement('div');
+        div.textContent = product.Descripcion;
+        div.classList.add('px-3', 'py-2', 'cursor-pointer', 'hover:bg-gray-200');
+        div.addEventListener('click', () => {
+            input.value = product.Descripcion;
+            const row = input.closest('tr');
+            const unitPriceInput = row.querySelector('input[name="P_Unit[]"]');
+            unitPriceInput.dataset.originalPrice = product.Precio; // Store the original price in soles
+            if (document.getElementById('editarTipoMonedaSelect').value === "D") {
+                unitPriceInput.value = (product.Precio / parseFloat(document.getElementById('editar_Tipo_Cambio').value)).toFixed(2);
+            } else {
+                unitPriceInput.value = product.Precio.toFixed(2);
+            }
+            calculateTotal(row.querySelector('input[name="Cantidad[]"]')); // Calculate the total
+            suggestionsBox.classList.add('hidden');
+        });
+        suggestionsBox.appendChild(div);
     });
 
-    const baseImponible = totalCotizacion / 1.18; // Assuming IGV is 18%
-    const igv = totalCotizacion - baseImponible;
-
-    document.getElementById('editar_Base_Imponible').value = baseImponible.toFixed(2);
-    document.getElementById('editar_IGV').value = igv.toFixed(2);
-    document.getElementById('editar_Total').value = totalCotizacion.toFixed(2);
+    if (filteredProducts.length > 0) {
+        suggestionsBox.classList.remove('hidden');
+    } else {
+        suggestionsBox.classList.add('hidden');
+    }
 }
