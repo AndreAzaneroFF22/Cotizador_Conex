@@ -8,7 +8,6 @@ let allCotizaciones = [];
 const clientesApiUrl = 'https://www.pruebaconex.somee.com/api/clientes';
 const contactosApiUrl = 'https://www.pruebaconex.somee.com/api/contactos/cliente/';
 
-
 async function listarTodasLasCotizaciones() {
     try {
         const response = await fetch(`${API_URL}/${usuarioLogeado}`);
@@ -148,11 +147,11 @@ async function mostrarModalEditarCotizacion(id) {
         const detalleCotizacion = await mostrarDetalleCotizacionPorId(id);
         if (!detalleCotizacion) return;
 
-
         // Rellenar los selectores antes de asignar el valor
-          llenarFormasPagoSelect(cabeceraCotizacion[0].FormaPago);
-          llenarMonedasSelect(cabeceraCotizacion[0].Moneda);
-
+        llenarFormasPagoSelect(cabeceraCotizacion[0].FormaPago);
+        llenarMonedasSelect(cabeceraCotizacion[0].Moneda);
+        await llenarClientesSelect(cabeceraCotizacion[0].Id_Cliente);
+        await llenarContactosSelect(cabeceraCotizacion[0].Id_Cliente, cabeceraCotizacion[0].Id_Contacto);
 
         document.getElementById('editar_Id_Cotizacion').value = cabeceraCotizacion[0].Id_Cotizacion;
         document.getElementById('editar_Dias_validez').value = cabeceraCotizacion[0].Dias_validez;
@@ -176,7 +175,7 @@ async function mostrarModalEditarCotizacion(id) {
                     <input type="number" class="w-full px-3 py-2 border rounded" name="Cantidad[]" value="${detalle.Cantidad}" oninput="calculateTotal(this)">
                 </td>
                 <td class="py-2 px-4 border border-gray-300">
-                    <input type="number" step="0.01" class="w-full px-3 py-2 border rounded" name="P_Unit[]" value="${detalle.Precio}" disabled>
+                    <input type="number" step="0.01" class="w-full px-3 py-2 border rounded" name="P_Unit[]" value="${detalle.Precio}" oninput="calculateTotal(this)">
                 </td>
                 <td class="py-2 px-4 border border-gray-300">
                     <input type="number" step="0.01" class="w-full px-3 py-2 border rounded" name="P_Total[]" value="${detalle.Cantidad * detalle.Precio}" disabled>
@@ -247,7 +246,6 @@ function llenarFormasPagoSelect(formaPagoSeleccionada) {
     }
 }
 
-
 function llenarMonedasSelect(monedaSeleccionada) {
     const monedaSelect = document.getElementById('editarTipoMonedaSelect');
     monedaSelect.innerHTML = `
@@ -257,7 +255,6 @@ function llenarMonedasSelect(monedaSeleccionada) {
     `;
     monedaSelect.value = monedaSeleccionada;
 }
-
 
 async function llenarClientesSelect(clienteSeleccionado) {
     const clienteSelect = document.getElementById('editar_clienteCotizacionSelect');
@@ -277,18 +274,15 @@ async function llenarClientesSelect(clienteSeleccionado) {
     }
 }
 
-
 async function actualizarCotizacion(event) {
     event.preventDefault();
     const idCotizacion = document.getElementById('editar_Id_Cotizacion').value;
 
     try {
         // Eliminar cabecera y detalle existentes
-        
         await eliminarCabeceraCotizacion(idCotizacion);
         await delay(2000);
         await eliminarDetalleCotizacion(idCotizacion);
-        
 
         // Crear nueva cabecera
         const nuevaCabecera = {
@@ -299,10 +293,10 @@ async function actualizarCotizacion(event) {
             Id_FormaPago: document.getElementById('editarTipoFormaPagoSelect').value,
             Dias_validez: document.getElementById('editar_Dias_validez').value,
             Usuario: usuarioLogeado,
-            Tipo_Cambio: document.getElementById('editar_Tipo_Cambio').value,
-            Base_Imponible: document.getElementById('editar_Base_Imponible').value,
-            IGV: document.getElementById('editar_IGV').value,
-            Total: document.getElementById('editar_Total').value
+            Tipo_Cambio: parseFloat(document.getElementById('editar_Tipo_Cambio').value),
+            Base_Imponible: parseFloat(document.getElementById('editar_Base_Imponible').value),
+            IGV: parseFloat(document.getElementById('editar_IGV').value),
+            Total: parseFloat(document.getElementById('editar_Total').value)
         };
         //console.log(nuevaCabecera);
         const cabeceraResponse = await fetch(`https://www.pruebaconex.somee.com/api/cotizaciones/`, {
@@ -362,7 +356,7 @@ document.getElementById('editar_addItem').addEventListener('click', () => {
             <input type="number" class="w-full px-3 py-2 border rounded" name="Cantidad[]" oninput="calculateTotal(this)">
         </td>
         <td class="py-2 px-4 border border-gray-300">
-            <input type="number" step="0.01" class="w-full px-3 py-2 border rounded" name="P_Unit[]" disabled>
+            <input type="number" step="0.01" class="w-full px-3 py-2 border rounded" name="P_Unit[]" oninput="calculateTotal(this)">
         </td>
         <td class="py-2 px-4 border border-gray-300">
             <input type="number" step="0.01" class="w-full px-3 py-2 border rounded" name="P_Total[]" disabled>
@@ -381,6 +375,11 @@ document.getElementById('editar_addItem').addEventListener('click', () => {
 
     const newQuantityInput = newRow.querySelector('input[name="Cantidad[]"]');
     newQuantityInput.addEventListener('input', function() {
+        calculateTotal(this);
+    });
+
+    const newPriceInput = newRow.querySelector('input[name="P_Unit[]"]');
+    newPriceInput.addEventListener('input', function() {
         calculateTotal(this);
     });
 });
@@ -435,13 +434,31 @@ document.addEventListener('DOMContentLoaded', () => {
 function removeRow(button) {
     const row = button.closest('tr');
     row.parentNode.removeChild(row);
+    updateTotalCotizacion(); // Ensure totals are updated after removing a row
 }
 
- 
 function calculateTotal(input) {
     const row = input.closest('tr');
     const cantidad = parseFloat(row.querySelector('input[name="Cantidad[]"]').value) || 0;
     const precioUnit = parseFloat(row.querySelector('input[name="P_Unit[]"]').value) || 0;
     const total = cantidad * precioUnit;
     row.querySelector('input[name="P_Total[]"]').value = total.toFixed(2);
+    updateTotalCotizacion(); // Ensure totals are updated after changing quantity or price
+}
+
+function updateTotalCotizacion() {
+    const tableBody = document.getElementById('editar_itemsTableBody');
+    let totalCotizacion = 0;
+    const rows = tableBody.querySelectorAll('tr');
+    rows.forEach(row => {
+        const total = parseFloat(row.querySelector('input[name="P_Total[]"]').value) || 0;
+        totalCotizacion += total;
+    });
+
+    const baseImponible = totalCotizacion / 1.18; // Assuming IGV is 18%
+    const igv = totalCotizacion - baseImponible;
+
+    document.getElementById('editar_Base_Imponible').value = baseImponible.toFixed(2);
+    document.getElementById('editar_IGV').value = igv.toFixed(2);
+    document.getElementById('editar_Total').value = totalCotizacion.toFixed(2);
 }
