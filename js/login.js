@@ -8,7 +8,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
          
         try {
-            const response = await fetch(`https://www.pruebaconex.somee.com/api/usuario?usuario=${user}&contrasena=${password}`, {
+            const response = await fetch(`httpss://www.pruebaconex.somee.com/api/usuario?usuario=${user}&contrasena=${password}`, {
                 method: 'GET',
                 headers: {
                     'Content-Type': 'application/json'

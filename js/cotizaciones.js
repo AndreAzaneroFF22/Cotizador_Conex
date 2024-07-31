@@ -1,7 +1,7 @@
 document.addEventListener('DOMContentLoaded', function() {
  
-    const clientesApiUrl = 'http://www.pruebaconex.somee.com/api/clientes';
-    const contactosApiUrl = 'http://www.pruebaconex.somee.com/api/contactos/cliente/';
+    const clientesApiUrl = 'https://www.pruebaconex.somee.com/api/clientes';
+    const contactosApiUrl = 'https://www.pruebaconex.somee.com/api/contactos/cliente/';
     const clienteSelect = document.getElementById('clienteCotizacionSelect');
     const clienteContactoSelect = document.getElementById("clienteContactoSelect");
     const tipoMonedaSelect = document.getElementById("tipoMonedaSelect");
@@ -12,7 +12,7 @@ document.addEventListener('DOMContentLoaded', function() {
   
     function actualizarCorrelativo() {
         // Fetch and populate clients in the combobox
-        fetch("http://www.pruebaconex.somee.com/api/cotizaciones/siguiente")
+        fetch("https://www.pruebaconex.somee.com/api/cotizaciones/siguiente")
         .then(response => response.json())
         .then(data => {
             document.getElementById("Id_Cotizacion").value = data
@@ -152,7 +152,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
         try {
             console.log(cotizacionData);
-            const response = await fetch("http://www.pruebaconex.somee.com/api/cotizaciones/", {
+            const response = await fetch("https://www.pruebaconex.somee.com/api/cotizaciones/", {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
@@ -197,7 +197,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 Descripcion_Producto: row.querySelector('input[name="Descripcion[]"]').value
             };
             try {
-                const response = await fetch("http://www.pruebaconex.somee.com/api/cotizacionesdet", {
+                const response = await fetch("https://www.pruebaconex.somee.com/api/cotizacionesdet", {
                     method: "POST",
                     headers: {
                         "Content-Type": "application/json",
@@ -219,7 +219,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
     async function fetchProducts() {
         try {
-            const response = await fetch('http://www.pruebaconex.somee.com/api/productos/activos');
+            const response = await fetch('https://www.pruebaconex.somee.com/api/productos/activos');
             const data = await response.json();
             products = data; // Store the whole product objects
         } catch (error) {

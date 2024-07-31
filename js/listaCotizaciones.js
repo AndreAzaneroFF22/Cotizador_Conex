@@ -1,12 +1,12 @@
 let usuarioLogeado = localStorage.getItem("usuario");
 
-const API_URL = "http://www.pruebaconex.somee.com/api/cotizaciones/usuario/";
+const API_URL = "https://www.pruebaconex.somee.com/api/cotizaciones/usuario/";
 const COTIZACIONES_PER_PAGE = 12;
 let currentPage = 1;
 let allCotizaciones = [];
 
-const clientesApiUrl = 'http://www.pruebaconex.somee.com/api/clientes';
-const contactosApiUrl = 'http://www.pruebaconex.somee.com/api/contactos/cliente/';
+const clientesApiUrl = 'https://www.pruebaconex.somee.com/api/clientes';
+const contactosApiUrl = 'https://www.pruebaconex.somee.com/api/contactos/cliente/';
 
 
 async function listarTodasLasCotizaciones() {
@@ -116,7 +116,7 @@ function renderPaginacion(totalCotizaciones, page) {
 
 async function eliminarCabeceraCotizacion(codigo) {
     try {
-        const response = await fetch(`http://www.pruebaconex.somee.com/api/cotizaciones/${codigo}`, {
+        const response = await fetch(`https://www.pruebaconex.somee.com/api/cotizaciones/${codigo}`, {
             method: 'DELETE'
         });
         if (!response.ok) throw new Error('Error al eliminar la cotización');
@@ -129,7 +129,7 @@ async function eliminarCabeceraCotizacion(codigo) {
 
 async function eliminarDetalleCotizacion(codigo) {
     try {
-        const response = await fetch(`http://www.pruebaconex.somee.com/api/cotizacionesdet/${codigo}`, {
+        const response = await fetch(`https://www.pruebaconex.somee.com/api/cotizacionesdet/${codigo}`, {
             method: 'DELETE'
         });
         if (!response.ok) throw new Error('Error al eliminar detalle cotización');
@@ -196,7 +196,7 @@ async function mostrarModalEditarCotizacion(id) {
 
 async function mostrarCabeceraCotizacionPorId(id) {
     try {
-        const response = await fetch(`http://www.pruebaconex.somee.com/api/cotizaciones/${id}`);
+        const response = await fetch(`https://www.pruebaconex.somee.com/api/cotizaciones/${id}`);
         if (!response.ok) throw new Error('Error al obtener la cotización');
         const cabeceraCotizacion = await response.json();
         return cabeceraCotizacion;
@@ -207,7 +207,7 @@ async function mostrarCabeceraCotizacionPorId(id) {
 
 async function mostrarDetalleCotizacionPorId(id) {
     try {
-        const response = await fetch(`http://www.pruebaconex.somee.com/api/cotizacionesdet/${id}`);
+        const response = await fetch(`https://www.pruebaconex.somee.com/api/cotizacionesdet/${id}`);
         if (!response.ok) throw new Error('Error al obtener el detalle de la cotización');
         const detalleCotizacion = await response.json();
         return detalleCotizacion;
@@ -305,7 +305,7 @@ async function actualizarCotizacion(event) {
             Total: document.getElementById('editar_Total').value
         };
         //console.log(nuevaCabecera);
-        const cabeceraResponse = await fetch(`http://www.pruebaconex.somee.com/api/cotizaciones/`, {
+        const cabeceraResponse = await fetch(`https://www.pruebaconex.somee.com/api/cotizaciones/`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
@@ -326,7 +326,7 @@ async function actualizarCotizacion(event) {
                 Precio: item.querySelector('input[name="P_Unit[]"]').value
             };
 
-            const detalleResponse = await fetch(`http://www.pruebaconex.somee.com/api/cotizacionesdet/`, {
+            const detalleResponse = await fetch(`https://www.pruebaconex.somee.com/api/cotizacionesdet/`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'

@@ -1,4 +1,4 @@
-const API_URL = "http://www.pruebaconex.somee.com/api/productos";
+const API_URL = "https://www.pruebaconex.somee.com/api/productos";
 const PRODUCTS_PER_PAGE = 12;
 let currentPage = 1;
 let allProductos = [];

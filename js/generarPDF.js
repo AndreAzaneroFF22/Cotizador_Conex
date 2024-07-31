@@ -35,11 +35,11 @@ function formatearFecha(fechaHora) {
 
 async function pintarModeloPDF(){
  
-        const responseCabecera = await fetch(`http://www.pruebaconex.somee.com/api/cotizaciones/${idCotizacion}`);
+        const responseCabecera = await fetch(`https://www.pruebaconex.somee.com/api/cotizaciones/${idCotizacion}`);
         if (!responseCabecera.ok) throw new Error('Error al obtener cabecera de cotización');
         const cabecera = await responseCabecera.json();
  
-        const responseDetalle = await fetch(`http://www.pruebaconex.somee.com/api/cotizacionesdet/${idCotizacion}`);
+        const responseDetalle = await fetch(`https://www.pruebaconex.somee.com/api/cotizacionesdet/${idCotizacion}`);
         if (!responseDetalle.ok) throw new Error('Error al obtener detalles de cotización');
         const detalles = await responseDetalle.json();
     
