@@ -124,6 +124,9 @@ async function crearCliente(cliente) {
         const nuevoCliente = await response.json();
         console.log('Cliente creado:', nuevoCliente);
         listarTodosLosClientes();  // Actualizar la lista después de crear el cliente
+        setTimeout(() => {
+            location.reload();
+        }, 900);
     } catch (error) {
         console.error('Error:', error);
     }
