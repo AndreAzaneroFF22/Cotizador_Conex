@@ -9,7 +9,7 @@ document.addEventListener('DOMContentLoaded', function() {
     const usuario = localStorage.getItem("usuario");  
   
 
-  
+//    ACTUALIZA EL NUMERO CORRELATIVO DE LA COTIZACION
     function actualizarCorrelativo() {
         // Fetch and populate clients in the combobox
         fetch("https://www.pruebaconex.somee.com/api/cotizaciones/siguiente")
@@ -19,11 +19,11 @@ document.addEventListener('DOMContentLoaded', function() {
         })
 
     }
-      
+
+//  MANTIENE ACTUALIZADO EL CORRELATIVO CADA 3 SEGUNDOS
     setInterval(actualizarCorrelativo, 3000);
 
-    
-    // Fetch and populate clients in the combobox
+//  LLENA EL COMBOBOX CLIENTES 
     fetch(clientesApiUrl)
         .then(response => response.json())
         .then(data => {
@@ -36,7 +36,7 @@ document.addEventListener('DOMContentLoaded', function() {
         })
         .catch(error => console.error('Error fetching clients:', error));
 
-    // Fetch and display contacts based on selected client
+//  LLENA EL COMBOBOX CONTACTOS DE ACUERDO AL CLIENTE SELECCIONADO
     clienteSelect.addEventListener('change', function () {
         const clientId = clienteSelect.value;
         if (clientId) {
@@ -44,6 +44,7 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     });
 
+//  OBTIENE EL LISTADO DE CONTACTOS DEPENDIENDO DEL ID DEL CLIENTE
     function fetchContactos(clientId) {
         fetch(contactosApiUrl + clientId)
             .then(response => response.json())
@@ -59,34 +60,53 @@ document.addEventListener('DOMContentLoaded', function() {
             .catch(error => console.error('Error fetching contacts:', error));
     }
 
+ 
     // Handle currency change
     tipoMonedaSelect.addEventListener('change', function () {
+
         const moneda = tipoMonedaSelect.value;
         const tipoCambio = parseFloat(tipoCambioInput.value);
+
+        console.log(moneda);
+        console.log(tipoCambio);
+        
+        
         
         const itemsTableBody = document.getElementById('itemsTableBody');
+
+
+
         for (let i = 0; i < itemsTableBody.rows.length; i++) {
             const row = itemsTableBody.rows[i];
             const unitPriceInput = row.querySelector('input[name="P_Unit[]"]');
             const quantityInput = row.querySelector('input[name="Cantidad[]"]');
+            const totalInput = row.querySelector('input[name="P_Total[]"]');
             const unitPrice = parseFloat(unitPriceInput.dataset.originalPrice);
+
+    
+            console.log(unitPriceInput.value);
+            console.log(quantityInput.value);
+            // console.log(unitPrice);
 
             if (!isNaN(unitPrice)) {
                 if (moneda === "D") {
-                    unitPriceInput.value = (unitPrice / tipoCambio).toFixed(2);
-                    
-                     
+                    unitPriceInput.value = (unitPrice).toFixed(2);    
+                    totalInput.value = (unitPrice*quantityInput.value);    
+                    calculateTotal(quantityInput); 
                 } else {
-                    unitPriceInput.value = unitPrice.toFixed(2);
-                     
+                    unitPriceInput.value = (unitPrice * tipoCambio).toFixed(2);
+                    totalInput.value = (unitPriceInput.value * parseInt(quantityInput.value)).toFixed(2) 
+                    calculateTotal(quantityInput);
                 }
-                //console.log(unitPriceInput.value);
-                calculateTotal(quantityInput);
+                // calculateTotal(quantityInput);
             }
         }
         
         recalculateAllTotals();
+
+
     });
+
 
     document.getElementById("addItem").addEventListener("click", () => {
         const tableBody = document.getElementById('itemsTableBody');
@@ -100,7 +120,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 <div class="absolute bg-white border border-gray-300 w-full max-h-40 overflow-auto z-10 hidden"></div>
             </td>
             <td class="py-2 px-4 border border-gray-300">
-                <input type="number" class="w-full px-3 py-2 border rounded" name="Cantidad[]" oninput="calculateTotal(this)">
+                <input type="number" class="w-full px-3 py-2 border rounded cantidadItemCot"  min="1" step="1" name="Cantidad[]" oninput="calculateTotal(this)">
             </td>
             <td class="py-2 px-4 border border-gray-300">
                 <input type="number" step="0.01" class="w-full px-3 py-2 border rounded" name="P_Unit[]" disabled>
@@ -248,12 +268,12 @@ document.addEventListener('DOMContentLoaded', function() {
                 input.value = product.Descripcion;
                 const row = input.closest('tr');
                 const unitPriceInput = row.querySelector('input[name="P_Unit[]"]');
-                unitPriceInput.dataset.originalPrice = product.Precio; // Store the original price in soles
+                unitPriceInput.dataset.originalPrice = product.Precio; // Store the original price dolares
                 if (tipoMonedaSelect.value === "D") {
-                    unitPriceInput.value = (product.Precio / parseFloat(tipoCambioInput.value)).toFixed(2);
+                    unitPriceInput.value = (product.Precio).toFixed(2);
                 } else {
-                    unitPriceInput.value = product.Precio.toFixed(2);
-                }
+                    unitPriceInput.value = (product.Precio*parseFloat(tipoCambioInput.value)).toFixed(2);
+                }     
                 calculateTotal(row.querySelector('input[name="Cantidad[]"]')); // Calculate the total
                 suggestionsBox.classList.add('hidden');
             });
