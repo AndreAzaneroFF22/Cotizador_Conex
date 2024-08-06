@@ -274,11 +274,11 @@ async function mostrarModalEditarCotizacion(id) {
             newRow.innerHTML = `
                 <td class="py-2 px-4 border border-gray-300">${index + 1}</td>
                 <td class="py-2 px-4 border border-gray-300 relative">
-                    <input type="text" class="w-full px-3 py-2 border rounded" name="Descripcion[]" value="${detalle.Descripcion_Producto}">
+                    <input type="text" class="w-full px-3 py-2 border rounded" name="Descripcion[]" value="${detalle.Descripcion_Producto}" oninput="showSuggestions(this)">
                     <div class="absolute bg-white border border-gray-300 w-full max-h-40 overflow-auto z-10 hidden"></div>
                 </td>
                 <td class="py-2 px-4 border border-gray-300">
-                    <input type="number" class="w-full px-3 py-2 border rounded" name="Cantidad[]" value="${detalle.Cantidad}">
+                    <input type="number" class="w-full px-3 py-2 border rounded" name="Cantidad[]" value="${detalle.Cantidad}" min=1 step="1">
                 </td>
                 <td class="py-2 px-4 border border-gray-300">
                     <input type="number" step="0.01" class="w-full px-3 py-2 border rounded" name="P_Unit[]" value="${detalle.Precio}" data-original-price="${detalle.Precio}">
@@ -406,11 +406,11 @@ document.getElementById('editar_addItem').addEventListener('click', () => {
     newRow.innerHTML = `
         <td class="py-2 px-4 border border-gray-300">${rowCount}</td>
         <td class="py-2 px-4 border border-gray-300 relative">
-            <input type="text" class="w-full px-3 py-2 border rounded" name="Descripcion[]">
+            <input type="text" class="w-full px-3 py-2 border rounded" name="Descripcion[]" oninput="showSuggestions(this)">
             <div class="absolute bg-white border border-gray-300 w-full max-h-40 overflow-auto z-10 hidden"></div>
         </td>
         <td class="py-2 px-4 border border-gray-300">
-            <input type="number" class="w-full px-3 py-2 border rounded" name="Cantidad[]">
+            <input type="number" class="w-full px-3 py-2 border rounded" name="Cantidad[]" min=1 step="1">
         </td>
         <td class="py-2 px-4 border border-gray-300">
             <input type="number" step="0.01" class="w-full px-3 py-2 border rounded" name="P_Unit[]" disabled>
