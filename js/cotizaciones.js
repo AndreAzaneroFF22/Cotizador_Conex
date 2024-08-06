@@ -213,8 +213,6 @@ document.addEventListener('DOMContentLoaded', function() {
 
 
             try {
-                
-                console.log(detalleData);
                 const response = await fetch("https://www.pruebaconex.somee.com/api/cotizacionesdet", {
                     method: "POST",
                     headers: {
