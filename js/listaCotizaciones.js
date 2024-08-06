@@ -1,13 +1,16 @@
-let usuarioLogeado = localStorage.getItem("usuario");
 
-const API_URL = "https://www.pruebaconex.somee.com/api/cotizaciones/usuario/";
-const COTIZACIONES_PER_PAGE = 12;
+let usuarioLogeado = localStorage.getItem("usuario");
+const COTIZACIONES_PER_PAGE = 8;
 let currentPage = 1;
 let allCotizaciones = [];
+let comodinContacto = "";
 
+const API_URL = "https://www.pruebaconex.somee.com/api/cotizaciones/usuario/";
 const clientesApiUrl = 'https://www.pruebaconex.somee.com/api/clientes';
 const contactosApiUrl = 'https://www.pruebaconex.somee.com/api/contactos/cliente/';
 
+
+// LISTA TODAS LAS COTIZACIONES -> RENDERIZA LAS COTIZACIONES Y EL PAGINADOR
 async function listarTodasLasCotizaciones() {
     try {
         const response = await fetch(`${API_URL}/${usuarioLogeado}`);
@@ -20,12 +23,15 @@ async function listarTodasLasCotizaciones() {
     }
 }
 
-function renderCotizaciones(page, productos) {
+
+// RENDERIZA TODAS LAS COTIZACIONES 
+function renderCotizaciones(page, cotizaciones) {
+
     const tbody = document.getElementById("tbodyCotizacion");
     tbody.innerHTML = '';
     const startIndex = (page - 1) * COTIZACIONES_PER_PAGE;
     const endIndex = page * COTIZACIONES_PER_PAGE;
-    const CotizacionesToShow = productos.slice(startIndex, endIndex);
+    const CotizacionesToShow = cotizaciones.slice(startIndex, endIndex);
 
     CotizacionesToShow.forEach(cotizacion => {
         const row = document.createElement('tr');
@@ -90,6 +96,7 @@ function renderCotizaciones(page, productos) {
     });
 }
 
+//  RENDERIZA LA PAGINACION
 function renderPaginacion(totalCotizaciones, page) {
     const pagination = document.getElementById('paginationCotizaciones');
     pagination.innerHTML = '';
@@ -113,6 +120,7 @@ function renderPaginacion(totalCotizaciones, page) {
     }
 }
 
+//  ELIMINA LA CABECERA DE LA COTIZACION POR CODIGO
 async function eliminarCabeceraCotizacion(codigo) {
     try {
         const response = await fetch(`https://www.pruebaconex.somee.com/api/cotizaciones/${codigo}`, {
@@ -126,6 +134,7 @@ async function eliminarCabeceraCotizacion(codigo) {
     }
 }
 
+// ELIMINA EL DETALLE DE LA COTIZACIÓN POR CODIGO
 async function eliminarDetalleCotizacion(codigo) {
     try {
         const response = await fetch(`https://www.pruebaconex.somee.com/api/cotizacionesdet/${codigo}`, {
@@ -139,7 +148,123 @@ async function eliminarDetalleCotizacion(codigo) {
     }
 }
 
+//  TRAE LA DATA DE LA CABECERA DE LA COTIZACION POR CODIGO
+async function mostrarCabeceraCotizacionPorId(id) {
+    try {
+        const response = await fetch(`https://www.pruebaconex.somee.com/api/cotizaciones/${id}`);
+        if (!response.ok) throw new Error('Error al obtener la cotización');
+        const cabeceraCotizacion = await response.json();
+        return cabeceraCotizacion;
+    } catch (error) {
+        console.error('Error:', error);
+    }
+}
+
+// TRAE LA DATA DEL DETALLE DE LA COTIZACION POR CODIGO
+async function mostrarDetalleCotizacionPorId(id) {
+    try {
+        const response = await fetch(`https://www.pruebaconex.somee.com/api/cotizacionesdet/${id}`);
+        if (!response.ok) throw new Error('Error al obtener el detalle de la cotización');
+        const detalleCotizacion = await response.json();
+        return detalleCotizacion;
+    } catch (error) {
+        console.error('Error:', error);
+    }
+}
+
+
+//  LLENA EL COMBOBOX CON EL CLIENTE DE LA COTIZACION
+async function llenarClientesSelect(clienteSeleccionado) {
+    const clienteSelect = document.getElementById('editar_clienteCotizacionSelect');
+    clienteSelect.innerHTML = '<option value="">--Seleccione un cliente--</option>';
+
+    try {
+        const response = await fetch(clientesApiUrl);
+        const clientes = await response.json();
+        clientes.forEach(cliente => {
+            const option = document.createElement('option');
+            option.value = cliente.Id_Cliente;
+            option.textContent = cliente.RSocial;
+            clienteSelect.appendChild(option);
+        });
+
+        for (let i = 0; i < clienteSelect.options.length; i++) {
+            if (clienteSelect.options[i].textContent === clienteSeleccionado) {
+                clienteSelect.selectedIndex = i;
+                break;
+            }
+        }
+        
+        // SE LLENA EL ID DEL CLIENTE PARA USARLO EN LA FUNCION llenarContactoSelect
+        comodinContacto =  clienteSelect.value;
+         
+    } catch (error) {
+        console.error('Error fetching clients:', error);
+    }
+
+}
+
+//  LLENA EL COMBOBOX CON EL CONCTACTO X CLIENTE DE LA COTIZACION
+async function llenarContactosSelect(contactoSeleccionado) {
+    const contactoSelect = document.getElementById('editarClienteContactoSelect');
+    contactoSelect.innerHTML = '<option value="">--Seleccione un contacto--</option>';
+    try {
+        const response = await fetch(contactosApiUrl + comodinContacto);
+        const contactos = await response.json();
+        contactos.forEach(contacto => {
+            const option = document.createElement('option');
+            option.value = contacto.Id_Contacto;
+            option.textContent = contacto.Nombre;
+            contactoSelect.appendChild(option);
+        });
+
+        for (let i = 0; i < contactoSelect.options.length; i++) {
+            if (contactoSelect.options[i].textContent === contactoSeleccionado) {
+                contactoSelect.selectedIndex = i;
+                break;
+            }
+        }
+
+    } catch (error) {
+        console.error('Error fetching contacts:', error);
+    }
+}
+
+//  LLENA EL COMBOBOX CON LA FORMA DE PAGO DE LA COTIZACION
+function llenarFormasPagoSelect(formaPagoSeleccionada) {
+    const formaPagoSelect = document.getElementById('editarTipoFormaPagoSelect');
+    formaPagoSelect.innerHTML = `
+        <option value="">--Seleccione forma de pago--</option>
+        <option value="1">Crédito 15 días</option> 
+        <option value="2">Crédito 30 días</option> 
+        <option value="3">Crédito 60 días</option> 
+        <option value="4">Contra Entrega</option> 
+    `;
+    for (let i = 0; i < formaPagoSelect.options.length; i++) {
+        if (formaPagoSelect.options[i].textContent === formaPagoSeleccionada) {
+            formaPagoSelect.selectedIndex = i;
+            break;
+        }
+    }
+}
+
+//  LLENA EL COMBOBOX CON EL TIPO DE MOENDA DE LA COTIZACION
+function llenarMonedasSelect(monedaSeleccionada) {
+    const monedaSelect = document.getElementById('editarTipoMonedaSelect');
+    monedaSelect.innerHTML = `
+        <option value="">--Seleccione tipo de moneda--</option>
+        <option value="S">Soles</option>
+        <option value="D">Dólares</option>
+    `;
+    monedaSelect.value = monedaSeleccionada;
+}
+
+
+
+
 async function mostrarModalEditarCotizacion(id) {
+ 
+    
     try {
         const cabeceraCotizacion = await mostrarCabeceraCotizacionPorId(id);
         if (!cabeceraCotizacion) return;
@@ -147,11 +272,15 @@ async function mostrarModalEditarCotizacion(id) {
         const detalleCotizacion = await mostrarDetalleCotizacionPorId(id);
         if (!detalleCotizacion) return;
 
+        console.log(cabeceraCotizacion);
+        console.log(detalleCotizacion);
+        
+
         // Rellenar los selectores antes de asignar el valor
         llenarFormasPagoSelect(cabeceraCotizacion[0].FormaPago);
         llenarMonedasSelect(cabeceraCotizacion[0].Moneda);
-        await llenarClientesSelect(cabeceraCotizacion[0].Id_Cliente);
-        await llenarContactosSelect(cabeceraCotizacion[0].Id_Cliente, cabeceraCotizacion[0].Id_Contacto);
+        await llenarClientesSelect(cabeceraCotizacion[0].Cliente);
+        await llenarContactosSelect(cabeceraCotizacion[0].Contacto);
 
         document.getElementById('editar_Id_Cotizacion').value = cabeceraCotizacion[0].Id_Cotizacion;
         document.getElementById('editar_Dias_validez').value = cabeceraCotizacion[0].Dias_validez;
@@ -193,86 +322,6 @@ async function mostrarModalEditarCotizacion(id) {
     }
 }
 
-async function mostrarCabeceraCotizacionPorId(id) {
-    try {
-        const response = await fetch(`https://www.pruebaconex.somee.com/api/cotizaciones/${id}`);
-        if (!response.ok) throw new Error('Error al obtener la cotización');
-        const cabeceraCotizacion = await response.json();
-        return cabeceraCotizacion;
-    } catch (error) {
-        console.error('Error:', error);
-    }
-}
-
-async function mostrarDetalleCotizacionPorId(id) {
-    try {
-        const response = await fetch(`https://www.pruebaconex.somee.com/api/cotizacionesdet/${id}`);
-        if (!response.ok) throw new Error('Error al obtener el detalle de la cotización');
-        const detalleCotizacion = await response.json();
-        return detalleCotizacion;
-    } catch (error) {
-        console.error('Error:', error);
-    }
-}
-
-async function llenarContactosSelect(clienteId, contactoSeleccionado) {
-    const contactoSelect = document.getElementById('editarClienteContactoSelect');
-    contactoSelect.innerHTML = '<option value="">--Seleccione un contacto--</option>';
-    try {
-        const response = await fetch(contactosApiUrl + clienteId);
-        const contactos = await response.json();
-        contactos.forEach(contacto => {
-            const option = document.createElement('option');
-            option.value = contacto.Id_Contacto;
-            option.textContent = contacto.Nombre;
-            contactoSelect.appendChild(option);
-        });
-        contactoSelect.value = contactoSeleccionado;
-    } catch (error) {
-        console.error('Error fetching contacts:', error);
-    }
-}
-
-function llenarFormasPagoSelect(formaPagoSeleccionada) {
-    const formaPagoSelect = document.getElementById('editarTipoFormaPagoSelect');
-    formaPagoSelect.innerHTML = `
-        <option value="1">Crédito 30 días</option>
-    `;
-    for (let i = 0; i < formaPagoSelect.options.length; i++) {
-        if (formaPagoSelect.options[i].textContent === formaPagoSeleccionada) {
-            formaPagoSelect.selectedIndex = i;
-            break;
-        }
-    }
-}
-
-function llenarMonedasSelect(monedaSeleccionada) {
-    const monedaSelect = document.getElementById('editarTipoMonedaSelect');
-    monedaSelect.innerHTML = `
-        <option value="">--Seleccione tipo de moneda--</option>
-        <option value="S">Soles</option>
-        <option value="D">Dólares</option>
-    `;
-    monedaSelect.value = monedaSeleccionada;
-}
-
-async function llenarClientesSelect(clienteSeleccionado) {
-    const clienteSelect = document.getElementById('editar_clienteCotizacionSelect');
-    clienteSelect.innerHTML = '<option value="">--Seleccione un cliente--</option>';
-    try {
-        const response = await fetch(clientesApiUrl);
-        const clientes = await response.json();
-        clientes.forEach(cliente => {
-            const option = document.createElement('option');
-            option.value = cliente.Id_Cliente;
-            option.textContent = cliente.RSocial;
-            clienteSelect.appendChild(option);
-        });
-        clienteSelect.value = clienteSeleccionado;
-    } catch (error) {
-        console.error('Error fetching clients:', error);
-    }
-}
 
 async function actualizarCotizacion(event) {
     event.preventDefault();
@@ -339,6 +388,7 @@ async function actualizarCotizacion(event) {
 }
 
 document.getElementById('editarCotizacionForm').addEventListener('submit', actualizarCotizacion);
+
 
 document.getElementById('editar_addItem').addEventListener('click', () => {
     const tableBody = document.getElementById('editar_itemsTableBody');
@@ -434,25 +484,36 @@ document.addEventListener('DOMContentLoaded', () => {
         const tipoCambio = parseFloat(document.getElementById('editar_Tipo_Cambio').value);
         
         const itemsTableBody = document.getElementById('editar_itemsTableBody');
+
         for (let i = 0; i < itemsTableBody.rows.length; i++) {
             const row = itemsTableBody.rows[i];
             const unitPriceInput = row.querySelector('input[name="P_Unit[]"]');
             const quantityInput = row.querySelector('input[name="Cantidad[]"]');
+            const totalInput = row.querySelector('input[name="P_Total[]"]');
             const unitPrice = parseFloat(unitPriceInput.dataset.originalPrice);
+
+    
+ 
 
             if (!isNaN(unitPrice)) {
                 if (moneda === "D") {
-                    unitPriceInput.value = (unitPrice / tipoCambio).toFixed(2);
+                    unitPriceInput.value = (unitPrice).toFixed(2);    
+                    totalInput.value = (unitPrice*quantityInput.value);    
+                    calculateTotal(quantityInput); 
                 } else {
-                    unitPriceInput.value = unitPrice.toFixed(2);
+                    unitPriceInput.value = (unitPrice * tipoCambio).toFixed(2);
+                    totalInput.value = (unitPriceInput.value * parseInt(quantityInput.value)).toFixed(2) 
+                    calculateTotal(quantityInput);
                 }
-                calculateTotal(quantityInput);
+                // calculateTotal(quantityInput);
             }
         }
         
         recalculateAllTotals();
+         
     });
 });
+
 
 window.removeRow = function(button) {
     const row = button.closest('tr');

@@ -67,13 +67,8 @@ document.addEventListener('DOMContentLoaded', function() {
         const moneda = tipoMonedaSelect.value;
         const tipoCambio = parseFloat(tipoCambioInput.value);
 
-        console.log(moneda);
-        console.log(tipoCambio);
-        
-        
-        
-        const itemsTableBody = document.getElementById('itemsTableBody');
 
+        const itemsTableBody = document.getElementById('itemsTableBody');
 
 
         for (let i = 0; i < itemsTableBody.rows.length; i++) {
@@ -84,9 +79,7 @@ document.addEventListener('DOMContentLoaded', function() {
             const unitPrice = parseFloat(unitPriceInput.dataset.originalPrice);
 
     
-            console.log(unitPriceInput.value);
-            console.log(quantityInput.value);
-            // console.log(unitPrice);
+ 
 
             if (!isNaN(unitPrice)) {
                 if (moneda === "D") {
@@ -162,7 +155,7 @@ document.addEventListener('DOMContentLoaded', function() {
             Id_Contacto: clienteContactoSelect.value,
             Moneda: tipoMonedaSelect.value,
             Id_FormaPago: document.getElementById("tipoFormaPagoSelect").value,
-            Dias_validez: formData.get("Dias_validez"),
+            Dias_validez: parseInt(formData.get("Dias_validez")),
             Usuario: usuario, // Placeholder
             Tipo_Cambio: parseFloat(tipoCambioInput.value),
             Base_Imponible: calculateBaseImponible(),
@@ -170,6 +163,7 @@ document.addEventListener('DOMContentLoaded', function() {
             Total: calculateTotal()
         };
 
+        
         try {
             console.log(cotizacionData);
             const response = await fetch("https://www.pruebaconex.somee.com/api/cotizaciones/", {
@@ -216,7 +210,11 @@ document.addEventListener('DOMContentLoaded', function() {
                 Precio: row.querySelector('input[name="P_Unit[]"]').value,
                 Descripcion_Producto: row.querySelector('input[name="Descripcion[]"]').value
             };
+
+
             try {
+                
+                console.log(detalleData);
                 const response = await fetch("https://www.pruebaconex.somee.com/api/cotizacionesdet", {
                     method: "POST",
                     headers: {
