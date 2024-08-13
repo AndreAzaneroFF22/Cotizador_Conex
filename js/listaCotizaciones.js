@@ -5,13 +5,14 @@ let allCotizaciones = [];
 let comodinContacto = "";
 
 
-const API_URL = "https://www.pruebaconex.somee.com/api/cotizaciones/usuario/";
+// const API_URL = "https://www.pruebaconex.somee.com/api/cotizaciones/usuario/";
+const API_URL = "https://www.pruebaconex.somee.com/api/cotizaciones";
 const clientesApiUrl = 'https://www.pruebaconex.somee.com/api/clientes';
 const contactosApiUrl = 'https://www.pruebaconex.somee.com/api/contactos/cliente/';
 
 async function listarTodasLasCotizaciones() {
     try {
-        const response = await fetch(`${API_URL}/${usuarioLogeado}`);
+        const response = await fetch(`${API_URL}`);
         if (!response.ok) throw new Error('Error al listar cotizaciones');
         allCotizaciones = await response.json();
         renderCotizaciones(currentPage, allCotizaciones);
