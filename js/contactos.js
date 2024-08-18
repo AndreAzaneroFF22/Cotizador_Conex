@@ -1,9 +1,14 @@
 document.addEventListener('DOMContentLoaded', function () {
     const clientesApiUrl = 'https://www.pruebaconex.somee.com/api/clientes';
-    const contactosApiUrl = 'https://www.pruebaconex.somee.com/api/contactos/cliente/';
+    const contactosxclientAPI = 'https://www.pruebaconex.somee.com/api/contactos/cliente/';
+    const contactoAPI = 'https://www.pruebaconex.somee.com/api/contactos/';
 
     const clienteSelect = document.getElementById('clienteSelect');
     const contactosTbody = document.getElementById('contactosTbody');
+    
+    let contactoclienteSelect = document.getElementById('contactoclienteSelect');
+ 
+
 
     // Fetch and populate clients in the combobox
     fetch(clientesApiUrl)
@@ -28,9 +33,25 @@ document.addEventListener('DOMContentLoaded', function () {
         }
     });
 
+
+    //  LLENA EL COMBOBOX CLIENTES 
+    fetch(clientesApiUrl)
+        .then(response => response.json())
+        .then(data => {
+            data.forEach(cliente => {
+                const option = document.createElement('option');
+                option.value = cliente.Id_Cliente;
+                option.textContent = cliente.RSocial;
+                contactoclienteSelect.appendChild(option);
+            });
+        })
+        .catch(error => console.error('Error fetching clients:', error));
+
+
+
     // Function to fetch and display contacts
     function fetchContactos(clientId) {
-        fetch(contactosApiUrl + clientId)
+        fetch(contactosxclientAPI + clientId)
             .then(response => response.json())
             .then(data => {
                 contactosTbody.innerHTML = '';
@@ -94,6 +115,7 @@ document.addEventListener('DOMContentLoaded', function () {
             document.getElementById('editTelefonoContacto').value = contacto[0].Telefono;
             document.getElementById('editCorreoContacto').value = contacto[0].Correo;
             document.getElementById('editActivoContacto').checked = contacto[0].Activo;
+            document.getElementById("editar_forma_pago_contacto").selectedIndex = contacto[0].Id_FormaPago;
 
             document.getElementById('editContactModal').classList.remove('hidden');
         } catch (error) {
@@ -109,12 +131,14 @@ document.addEventListener('DOMContentLoaded', function () {
         const telefono = document.getElementById('editTelefonoContacto').value;
         const correo = document.getElementById('editCorreoContacto').value;
         const activo = document.getElementById('editActivoContacto').checked;
+        const Id_FormaPago = parseInt(document.getElementById("editar_forma_pago_contacto").value);
 
         const contactoActualizado = {
             nombre,
             telefono,
             correo,
-            activo
+            activo,
+            Id_FormaPago
         };
 
        
@@ -134,7 +158,9 @@ document.addEventListener('DOMContentLoaded', function () {
     // Function to update a contact
     async function actualizarContacto(id, contacto) {
         try {
-            const response = await fetch(`${contactosApiUrl}${id}`, {
+            console.log(contacto);
+            
+            const response = await fetch(`${contactoAPI}${id}`, {
                 method: 'PUT',
                 headers: {
                     'Content-Type': 'application/json'
@@ -154,12 +180,18 @@ document.addEventListener('DOMContentLoaded', function () {
         const nombre = document.getElementById('nombreContactoInp').value;
         const telefono = document.getElementById('telefonoContactoInp').value;
         const correo = document.getElementById('correoContactoInp').value;
-
+        const id_formapago = parseInt(document.getElementById('forma_pago_contacto').value);   
+        const id_cliente = parseInt(contactoclienteSelect.value);     
         const nuevoContacto = {
             nombre,
             telefono,
-            correo
+            correo,
+            id_cliente,
+            id_formapago
         };
+
+        console.log(nuevoContacto);
+        
 
         crearContacto(nuevoContacto).then(() => {
             createContactoForm.reset();
@@ -170,7 +202,7 @@ document.addEventListener('DOMContentLoaded', function () {
     // Función para crear un nuevo cliente
 async function crearContacto(contacto) {
     try {
-        const response = await fetch(contactosApiUrl, {
+        const response = await fetch(contactoAPI, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
