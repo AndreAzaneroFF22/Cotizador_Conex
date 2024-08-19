@@ -61,6 +61,11 @@ function renderCotizaciones(page, cotizaciones) {
         codigoCell.textContent = cotizacion.Id_Cotizacion;
         row.appendChild(codigoCell);
 
+        const Usu_CreaCell = document.createElement('td');
+        Usu_CreaCell.classList.add('py-3', 'px-6', 'border', 'border-gray-300');
+        Usu_CreaCell.textContent = cotizacion.Usu_Crea;
+        row.appendChild(Usu_CreaCell);
+        
         const clienteCell = document.createElement('td');
         clienteCell.classList.add('py-3', 'px-6', 'border', 'border-gray-300');
         clienteCell.textContent = cotizacion.Cliente;
