@@ -10,12 +10,14 @@ let permisos = "";
 
 
 // Fetch permisos
-fetch(`${API_PERMISOS_USER}${userLogueado}`)
-.then(response => response.json())
-.then(data => {
-     permisos = data;
-})
-.catch(error => console.error('Error fetching clients:', error));
+async function obtenerPermisos() {
+    try {
+        const response = await fetch(`${API_PERMISOS_USER}${userLogueado}`);
+        permisos = await response.json();
+    } catch (error) {
+        console.error('Error fetching clients:', error);
+    }
+}
 
 
 
@@ -25,8 +27,14 @@ async function listarTodosLosProductos() {
         const response = await fetch(API_URL);
         if (!response.ok) throw new Error('Error al listar productos');
         allProductos = await response.json();
-        renderProductos(currentPage, allProductos);
-        renderPaginacion(allProductos.length, currentPage);
+
+        obtenerPermisos().then(() => {
+            
+            renderProductos(currentPage, allProductos);
+            renderPaginacion(allProductos.length, currentPage);
+        });
+        
+        
     } catch (error) {
         console.error('Error:', error);
     }
@@ -109,8 +117,13 @@ function renderPaginacion(totalProductos, page) {
             button.classList.add('bg-gray-200');
             button.addEventListener('click', () => {
                 currentPage = i;
-                renderProductos(currentPage, allProductos);
-                renderPaginacion(totalProductos, currentPage);
+
+                obtenerPermisos().then(() => { 
+                     renderProductos(currentPage, allProductos);
+                     renderPaginacion(totalProductos, currentPage);
+                });
+                 
+                
             });
         }
         button.textContent = i;
@@ -223,8 +236,12 @@ function filtrarProductosPorDescripcion(descripcion) {
     const productosFiltrados = allProductos.filter(producto =>
         producto.Descripcion.toLowerCase().includes(descripcion.toLowerCase())
     );
-    renderProductos(1, productosFiltrados);
-    renderPaginacion(productosFiltrados.length, 1);
+
+     obtenerPermisos().then(() => {
+            renderProductos(1, productosFiltrados);
+            renderPaginacion(productosFiltrados.length, 1);
+     });
+    
 }
 
 // Ejemplo de uso
