@@ -1,5 +1,5 @@
 const API_URL = "https://www.pruebaconex.somee.com/api/productos";
-const API_PERMISOS_USER = "http://www.pruebaconex.somee.com/api/usuario?usuario="
+const API_PERMISOS_USER = "https://www.pruebaconex.somee.com/api/usuario?usuario="
 const PRODUCTS_PER_PAGE = 9;
 let currentPage = 1;
 let allProductos = [];

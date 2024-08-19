@@ -9,7 +9,7 @@ let comodinContacto = "";
 const API_URL = "https://www.pruebaconex.somee.com/api/cotizaciones";
 const clientesApiUrl = 'https://www.pruebaconex.somee.com/api/clientes';
 const contactosApiUrl = 'https://www.pruebaconex.somee.com/api/contactos/cliente/';
-const API_PERMISOS_USER = "http://www.pruebaconex.somee.com/api/usuario?usuario="
+const API_PERMISOS_USER = "https://www.pruebaconex.somee.com/api/usuario?usuario="
 
 
 let permisos = "";
