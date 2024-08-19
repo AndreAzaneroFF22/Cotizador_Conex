@@ -29,8 +29,13 @@ async function listarTodasLasCotizaciones() {
         const response = await fetch(`${API_URL}`);
         if (!response.ok) throw new Error('Error al listar cotizaciones');
         allCotizaciones = await response.json();
-        renderCotizaciones(currentPage, allCotizaciones);
-        renderPaginacion(allCotizaciones.length, currentPage);
+
+          obtenerPermisos().then(() => {
+              renderCotizaciones(currentPage, allCotizaciones);
+             renderPaginacion(allCotizaciones.length, currentPage);
+          });
+         
+        
     } catch (error) {
         console.error('Error:', error);
     }
@@ -130,8 +135,12 @@ function renderPaginacion(totalCotizaciones, page) {
             button.classList.add('bg-gray-200');
             button.addEventListener('click', () => {
                 currentPage = i;
-                renderCotizaciones(currentPage, allCotizaciones);
-                renderPaginacion(totalCotizaciones, currentPage);
+
+                 obtenerPermisos().then(() => {
+                       renderCotizaciones(currentPage, allCotizaciones);
+                       renderPaginacion(totalCotizaciones, currentPage);
+                 });
+                
             });
         }
         button.textContent = i;
