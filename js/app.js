@@ -6,3 +6,9 @@ import './cotizaciones.js';
 import './listaCotizaciones.js';
 import './cerrarSesion.js';
 
+let usuarioLogeado = localStorage.getItem("usuario");
+
+if (usuarioLogeado == null) {
+	window.location.href = '../index.html';
+    	localStorage.removeItem("usuario");
+}
