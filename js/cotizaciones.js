@@ -1,13 +1,14 @@
 document.addEventListener('DOMContentLoaded', function() {
- 
+    
     const clientesApiUrl = 'https://www.pruebaconex.somee.com/api/clientes';
     const contactosApiUrl = 'https://www.pruebaconex.somee.com/api/contactos/cliente/';
+    const URL_CONTACTO = "http://www.pruebaconex.somee.com/api/contactos/";
     const clienteSelect = document.getElementById('clienteCotizacionSelect');
     const clienteContactoSelect = document.getElementById("clienteContactoSelect");
     const tipoMonedaSelect = document.getElementById("tipoMonedaSelect");
     const tipoCambioInput = document.getElementById("Tipo_Cambio");
     const usuario = localStorage.getItem("usuario");  
-  
+    
 
 //    ACTUALIZA EL NUMERO CORRELATIVO DE LA COTIZACION
     function actualizarCorrelativo() {
@@ -44,12 +45,18 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     });
 
+
+
+
 //  OBTIENE EL LISTADO DE CONTACTOS DEPENDIENDO DEL ID DEL CLIENTE
     function fetchContactos(clientId) {
         fetch(contactosApiUrl + clientId)
             .then(response => response.json())
             .then(data => {
                 clienteContactoSelect.innerHTML = '';
+                const optionComodin = document.createElement('option');
+                optionComodin.textContent = "--Seleccionar Contacto--";
+                clienteContactoSelect.appendChild(optionComodin);
                 data.forEach(contacto => {
                     const option = document.createElement('option');
                     option.value = contacto.Id_Contacto;
@@ -61,6 +68,16 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
  
+// CARGAR FORMA DE PAGO CUANDO EL SELECT REALIZA LA ACCION DE CHANGE
+
+clienteContactoSelect.addEventListener("change",async()=>{
+    const response = await fetch( `${URL_CONTACTO}/${clienteContactoSelect.value}`)
+    let contacto = await response.json();
+    formaPagoContacto = contacto[0].Id_FormaPago;
+    document.getElementById("tipoFormaPagoSelect").selectedIndex = contacto[0].Id_FormaPago
+});
+
+
     // Handle currency change
     tipoMonedaSelect.addEventListener('change', function () {
 
