@@ -9,6 +9,20 @@ let comodinContacto = "";
 const API_URL = "https://www.pruebaconex.somee.com/api/cotizaciones";
 const clientesApiUrl = 'https://www.pruebaconex.somee.com/api/clientes';
 const contactosApiUrl = 'https://www.pruebaconex.somee.com/api/contactos/cliente/';
+const API_PERMISOS_USER = "http://www.pruebaconex.somee.com/api/usuario?usuario="
+
+
+let permisos = "";
+
+// Fetch permisos
+fetch(`${API_PERMISOS_USER}${usuarioLogeado}`)
+.then(response => response.json())
+.then(data => {
+     permisos = data;
+})
+.catch(error => console.error('Error fetching clients:', error));
+
+
 
 async function listarTodasLasCotizaciones() {
     try {
@@ -28,6 +42,8 @@ function renderCotizaciones(page, cotizaciones) {
     const startIndex = (page - 1) * COTIZACIONES_PER_PAGE;
     const endIndex = page * COTIZACIONES_PER_PAGE;
     const CotizacionesToShow = cotizaciones.slice(startIndex, endIndex);
+    const {EditarCotizacion} = permisos;
+
 
     CotizacionesToShow.forEach(cotizacion => {
         const row = document.createElement('tr');
@@ -62,7 +78,11 @@ function renderCotizaciones(page, cotizaciones) {
         accionesCell.classList.add('py-3', 'px-6', 'border', 'border-gray-300', 'flex', 'justify-center', 'gap-x-4');
 
         const editarButton = document.createElement('button');
-        editarButton.classList.add('bg-blue-500', 'text-white', 'px-4', 'py-2', 'rounded');
+        if (EditarCotizacion) {
+            editarButton.classList.add('bg-blue-500', 'text-white', 'px-4', 'py-2', 'rounded');
+        } else {
+            editarButton.classList.add('bg-blue-200', 'text-white', 'px-4', 'py-2', 'rounded','pointer-events-none');
+        }
         editarButton.textContent = 'Editar';
         editarButton.onclick = () => {
             mostrarModalEditarCotizacion(cotizacion.Id_Cotizacion);
@@ -79,7 +99,11 @@ function renderCotizaciones(page, cotizaciones) {
         accionesCell.appendChild(imprimirButton);
 
         const eliminarButton = document.createElement('button');
-        eliminarButton.classList.add('bg-red-500', 'text-white', 'px-4', 'py-2', 'rounded');
+        if (EditarCotizacion) {
+            eliminarButton.classList.add('bg-red-500', 'text-white', 'px-4', 'py-2', 'rounded');
+        } else {
+            eliminarButton.classList.add('bg-red-200', 'text-white', 'px-4', 'py-2', 'rounded','pointer-events-none');
+        } 
         eliminarButton.textContent = 'Eliminar';
         eliminarButton.onclick = () => {
             eliminarDetalleCotizacion(cotizacion.Id_Cotizacion);

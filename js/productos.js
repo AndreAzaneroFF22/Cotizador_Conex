@@ -1,7 +1,23 @@
 const API_URL = "https://www.pruebaconex.somee.com/api/productos";
+const API_PERMISOS_USER = "http://www.pruebaconex.somee.com/api/usuario?usuario="
 const PRODUCTS_PER_PAGE = 9;
 let currentPage = 1;
 let allProductos = [];
+
+
+let userLogueado = localStorage.getItem("usuario");
+let permisos = "";
+
+
+// Fetch permisos
+fetch(`${API_PERMISOS_USER}${userLogueado}`)
+.then(response => response.json())
+.then(data => {
+     permisos = data;
+})
+.catch(error => console.error('Error fetching clients:', error));
+
+
 
 // Función para listar todos los productos
 async function listarTodosLosProductos() {
@@ -23,7 +39,9 @@ function renderProductos(page, productos) {
     const startIndex = (page - 1) * PRODUCTS_PER_PAGE;
     const endIndex = page * PRODUCTS_PER_PAGE;
     const productosToShow = productos.slice(startIndex, endIndex);
+    const {EditarProducto} = permisos;
 
+    
     productosToShow.forEach(producto => {
         const row = document.createElement('tr');
         row.classList.add('border', 'border-gray-300');
@@ -52,13 +70,21 @@ function renderProductos(page, productos) {
         accionesCell.classList.add('py-3', 'px-6','border', 'border-gray-300','flex','justify-center','gap-x-4');
 
         const editarButton = document.createElement('button');
-        editarButton.classList.add('bg-blue-500', 'text-white', 'px-4', 'py-2', 'rounded');
+        if (EditarProducto) {
+            editarButton.classList.add('bg-blue-500', 'text-white', 'px-4', 'py-2', 'rounded');
+        } else {
+            editarButton.classList.add('bg-blue-200', 'text-white', 'px-4', 'py-2', 'rounded','pointer-events-none');
+        }
         editarButton.textContent = 'Editar';
         editarButton.onclick = () => mostrarModalEditarProducto(producto.Codigo);
         accionesCell.appendChild(editarButton);
 
         const eliminarButton = document.createElement('button');
-        eliminarButton.classList.add('bg-red-500', 'text-white', 'px-4', 'py-2', 'rounded');
+        if (EditarProducto) {
+            eliminarButton.classList.add('bg-red-500', 'text-white', 'px-4', 'py-2', 'rounded');
+        } else {
+            eliminarButton.classList.add('bg-red-200', 'text-white', 'px-4', 'py-2', 'rounded','pointer-events-none');
+        } 
         eliminarButton.textContent = 'Eliminar';
         eliminarButton.onclick = () => eliminarProducto(producto.Codigo);
         accionesCell.appendChild(eliminarButton);
