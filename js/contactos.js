@@ -212,6 +212,10 @@ async function crearContacto(contacto) {
         if (!response.ok) throw new Error('Error al crear el contacto');
         const nuevoContacto = await response.json();
         console.log(nuevoContacto);
+        
+        setInterval(function() {
+            location.reload();
+        }, 2000);
     } catch (error) {
         console.error('Error:', error);
     }
