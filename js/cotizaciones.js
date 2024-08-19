@@ -73,7 +73,6 @@ document.addEventListener('DOMContentLoaded', function() {
 clienteContactoSelect.addEventListener("change",async()=>{
     const response = await fetch( `${URL_CONTACTO}/${clienteContactoSelect.value}`)
     let contacto = await response.json();
-    formaPagoContacto = contacto[0].Id_FormaPago;
     document.getElementById("tipoFormaPagoSelect").selectedIndex = contacto[0].Id_FormaPago
 });
 
