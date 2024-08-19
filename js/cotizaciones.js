@@ -2,7 +2,7 @@ document.addEventListener('DOMContentLoaded', function() {
     
     const clientesApiUrl = 'https://www.pruebaconex.somee.com/api/clientes';
     const contactosApiUrl = 'https://www.pruebaconex.somee.com/api/contactos/cliente/';
-    const URL_CONTACTO = "http://www.pruebaconex.somee.com/api/contactos/";
+    const URL_CONTACTO = "https://www.pruebaconex.somee.com/api/contactos/";
     const clienteSelect = document.getElementById('clienteCotizacionSelect');
     const clienteContactoSelect = document.getElementById("clienteContactoSelect");
     const tipoMonedaSelect = document.getElementById("tipoMonedaSelect");
