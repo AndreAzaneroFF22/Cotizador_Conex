@@ -15,12 +15,14 @@ const API_PERMISOS_USER = "https://www.pruebaconex.somee.com/api/usuario?usuario
 let permisos = "";
 
 // Fetch permisos
-fetch(`${API_PERMISOS_USER}${usuarioLogeado}`)
-.then(response => response.json())
-.then(data => {
-     permisos = data;
-})
-.catch(error => console.error('Error fetching clients:', error));
+async function obtenerPermisos() {
+    try {
+        const response = await fetch(`${API_PERMISOS_USER}${usuarioLogeado}`);
+        permisos = await response.json();
+    } catch (error) {
+        console.error('Error fetching clients:', error);
+    }
+}
 
 
 
