@@ -167,6 +167,10 @@ document.addEventListener('DOMContentLoaded', function () {
                 },
                 body: JSON.stringify(contacto)
             });
+
+            setInterval(function() {
+                location.reload();
+            }, 2000);
             if (!response.ok) throw new Error('Error al actualizar el contacto');
         } catch (error) {
             console.error('Error:', error);
