@@ -52,7 +52,6 @@ function renderProductos(page, productos) {
     
     productosToShow.forEach(producto => {
         const row = document.createElement('tr');
-        row.classList.add('border', 'border-gray-300');
 
         const codigoCell = document.createElement('td');
         codigoCell.classList.add('py-3', 'px-6','border', 'border-gray-300');
@@ -75,13 +74,13 @@ function renderProductos(page, productos) {
         row.appendChild(precioCell);
 
         const accionesCell = document.createElement('td');
-        accionesCell.classList.add('py-3', 'px-6','border', 'border-gray-300','flex','justify-center','gap-x-4');
+        accionesCell.classList.add('py-3', 'px-6','border', 'border-gray-300','text-center');
 
         const editarButton = document.createElement('button');
         if (EditarProducto) {
-            editarButton.classList.add('bg-blue-500', 'text-white', 'px-4', 'py-2', 'rounded');
+            editarButton.classList.add('bg-blue-500', 'text-white', 'px-4', 'py-2', 'rounded','mr-2');
         } else {
-            editarButton.classList.add('bg-blue-200', 'text-white', 'px-4', 'py-2', 'rounded','pointer-events-none');
+            editarButton.classList.add('bg-blue-200', 'text-white', 'px-4', 'py-2', 'rounded','pointer-events-none','mr-2');
         }
         editarButton.textContent = 'Editar';
         editarButton.onclick = () => mostrarModalEditarProducto(producto.Codigo);
@@ -89,9 +88,9 @@ function renderProductos(page, productos) {
 
         const eliminarButton = document.createElement('button');
         if (EditarProducto) {
-            eliminarButton.classList.add('bg-red-500', 'text-white', 'px-4', 'py-2', 'rounded');
+            eliminarButton.classList.add('bg-red-500', 'text-white', 'px-4', 'py-2', 'rounded','ml-2');
         } else {
-            eliminarButton.classList.add('bg-red-200', 'text-white', 'px-4', 'py-2', 'rounded','pointer-events-none');
+            eliminarButton.classList.add('bg-red-200', 'text-white', 'px-4', 'py-2', 'rounded','pointer-events-none','ml-2');
         } 
         eliminarButton.textContent = 'Eliminar';
         eliminarButton.onclick = () => eliminarProducto(producto.Codigo);

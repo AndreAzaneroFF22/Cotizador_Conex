@@ -54,7 +54,6 @@ function renderCotizaciones(page, cotizaciones) {
 
     CotizacionesToShow.forEach(cotizacion => {
         const row = document.createElement('tr');
-        row.classList.add('border', 'border-gray-300');
 
         const codigoCell = document.createElement('td');
         codigoCell.classList.add('py-3', 'px-6', 'border', 'border-gray-300');
@@ -87,7 +86,7 @@ function renderCotizaciones(page, cotizaciones) {
         row.appendChild(totalCell);
 
         const accionesCell = document.createElement('td');
-        accionesCell.classList.add('py-3', 'px-6', 'border', 'border-gray-300', 'flex', 'justify-center', 'gap-x-4');
+        accionesCell.classList.add('py-3', 'px-6', 'border', 'border-gray-300', 'text-center');
 
         const editarButton = document.createElement('button');
         if (EditarCotizacion) {

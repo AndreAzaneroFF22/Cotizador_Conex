@@ -28,7 +28,6 @@ function renderClientes(page, clientes) {
     clientesToShow.forEach(cliente => {
       
         const row = document.createElement('tr');
-        row.classList.add('border', 'border-gray-300');
 
         const tipdocCell = document.createElement('td');
         tipdocCell.classList.add('py-3', 'px-6','border', 'border-gray-300');
@@ -61,7 +60,7 @@ function renderClientes(page, clientes) {
         row.appendChild(correoCell);
 
         const accionesCell = document.createElement('td');
-        accionesCell.classList.add('py-3', 'px-6','border', 'border-gray-300','flex','justify-center','gap-x-4');
+        accionesCell.classList.add('py-3', 'px-6','border', 'border-gray-300','text-center');
 
         const editarButton = document.createElement('button');
         editarButton.classList.add('bg-blue-500', 'text-white', 'px-4', 'py-2', 'rounded');
