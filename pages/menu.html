@@ -79,7 +79,7 @@
                     <h1 class="text-2xl font-bold">Usuarios</h1>
                 </div>
                 <div class="flex items-center mb-4">
-                    <button type="button" class="bg-blue-500 text-white px-4 py-2 rounded">Crear usuario</button>
+                    <button type="button" class="bg-blue-500 text-white px-4 py-2 rounded" id="btnCrearUsuario">Crear usuario</button>
                 </div>
                 <table class="min-w-full border border-gray-600">
                     <thead>
@@ -96,6 +96,86 @@
                 </table>
                 <div id="paginationUsuarios" class="flex justify-center mt-4"></div>
             </div>
+
+            <!-- Crear Usuario -->
+            <div id="crearUsuarioModal" class="hidden fixed inset-0 bg-gray-800 bg-opacity-75 flex items-center justify-center">
+                <div class="bg-white p-8 rounded-lg shadow-md w-full max-w-md">
+                    <h2 class="text-2xl font-bold mb-6 text-center">Crear Usuario</h2>
+                    <form id="crearUsuarioFormulario">
+                        <!-- <input type="hidden" id="editCodigo" name="codigo"> -->
+                        <div class="mb-4">
+                            <label  class="block text-gray-700">Usuario:</label>
+                            <input type="text" id="nombreUsuario" required class="w-full px-3 py-2 border rounded">
+                        </div>
+                        <div class="mb-4">
+                            <label  class="block text-gray-700">Contraseña:</label>
+                            <input type="text" id="contraUsuario"  class="w-full px-3 py-2 border rounded" required>
+                        </div>
+                        <div class="mb-4">
+                            <div class="space-y-6 p-4 bg-white shadow-md rounded-md">
+                                <label class="block text-lg font-medium text-gray-700">Permisos:</label>
+                                <div class="space-y-4">
+                                    <div class="flex items-center space-x-4">
+                                        <label for="crearCotizacion" class="w-40 text-gray-600">Crear Cotización</label>
+                                        <div class="flex items-center space-x-2">
+                                            <input type="radio" id="crearCotizacionSi" name="crearCotizacion" class="form-radio text-blue-600" value="true">
+                                            <label for="crearCotizacionSi" class="text-gray-700">Sí</label>
+                                        </div>
+                                        <div class="flex items-center space-x-2">
+                                            <input type="radio" id="crearCotizacionNo" checked name="crearCotizacion" class="form-radio text-blue-600" value="false">
+                                            <label for="crearCotizacionNo" class="text-gray-700">No</label>
+                                        </div>
+                                    </div>
+                                    <div class="flex items-center space-x-4">
+                                        <label for="editarCotizacion" class="w-40 text-gray-600">Editar Cotización</label>
+                                        <div class="flex items-center space-x-2">
+                                            <input type="radio" id="editarCotizacionSi" name="editarCotizacion" class="form-radio text-blue-600" value="true">
+                                            <label for="editarCotizacionSi" class="text-gray-700">Sí</label>
+                                        </div>
+                                        <div class="flex items-center space-x-2">
+                                            <input type="radio" id="editarCotizacionNo" name="editarCotizacion" checked class="form-radio text-blue-600" value="false" >
+                                            <label for="editarCotizacionNo" class="text-gray-700">No</label>
+                                        </div>
+                                    </div>
+                                    <div class="flex items-center space-x-4">
+                                        <label for="crearProducto" class="w-40 text-gray-600">Crear Producto</label>
+                                        <div class="flex items-center space-x-2">
+                                            <input type="radio" id="crearProductoSi" name="crearProducto"  class="form-radio text-blue-600" value="true">
+                                            <label for="crearProductoSi" class="text-gray-700">Sí</label>
+                                        </div>
+                                        <div class="flex items-center space-x-2">
+                                            <input type="radio" id="crearProductoNo" name="crearProducto" checked class="form-radio text-blue-600" value="false">
+                                            <label for="crearProductoNo" class="text-gray-700">No</label>
+                                        </div>
+                                    </div>
+                                    <div class="flex items-center space-x-4">
+                                        <label for="editarProducto" class="w-40 text-gray-600">Editar Producto</label>
+                                        <div class="flex items-center space-x-2">
+                                            <input type="radio" id="editarProductoSi" name="editarProducto" class="form-radio text-blue-600" value="true">
+                                            <label for="editarProductoSi" class="text-gray-700">Sí</label>
+                                        </div>
+                                        <div class="flex items-center space-x-2">
+                                            <input type="radio" id="editarProductoNo" name="editarProducto" checked class="form-radio text-blue-600" value="false">
+                                            <label for="editarProductoNo" class="text-gray-700">No</label>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="mb-4">
+                            <label for="editActivo" class="block text-gray-700">Activo:</label>
+                            <input type="checkbox" id="estadoUsuario" name="activo" checked class="w-full px-3 py-2 border rounded">
+                        </div>
+                        <div class="flex justify-end">
+                            <button type="button" id="btnCerrarModalCrearUsuario" class="bg-red-500 text-white px-4 py-2 rounded mr-2">Cancelar</button>
+                            <button type="submit" class="bg-blue-500 text-white px-4 py-2 rounded">Crear Usuario</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+
+
 
 
                 <!-- Productos -->
