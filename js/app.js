@@ -5,6 +5,7 @@ import './contactos.js';
 import './cotizaciones.js';
 import './listaCotizaciones.js';
 import './cerrarSesion.js';
+import './administración.js';
 
 let usuarioLogeado = localStorage.getItem("usuario");
 

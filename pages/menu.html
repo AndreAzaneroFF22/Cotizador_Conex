@@ -60,6 +60,10 @@
                     <a href="#" class="block py-2.5 px-4 rounded hover:bg-gray-600 menu-button" data-option="cotizaciones">Cotizaciones</a>
                     <a href="#" class="block py-2.5 px-4 rounded hover:bg-gray-600 menu-button" data-option="crearCotizacion">Crear Cotización</a>
                 </div>
+                <!-- Administración -->
+                <div>
+                    <a href="#" class="block py-2.5 px-4 rounded hover:bg-gray-700 bg-gray-700 menu-button" data-option="panelAdmin">Administración</a>
+                </div>
                 <a href="#" id="logout" class="block py-2.5 px-4 rounded hover:bg-red-500 bg-red-700">Cerrar Sesión</a>
             </nav>
         </div>
@@ -67,6 +71,34 @@
         <!-- Main Content -->
         <main class="flex-grow p-6">
             <div id="content" class="overflow-y-auto">
+
+
+            <!-- Administración -->
+            <div id="panelAdmin" class="hidden">
+                <div class="mb-6">
+                    <h1 class="text-2xl font-bold">Usuarios</h1>
+                </div>
+                <div class="flex items-center mb-4">
+                    <button type="button" class="bg-blue-500 text-white px-4 py-2 rounded">Crear usuario</button>
+                </div>
+                <table class="min-w-full border border-gray-600">
+                    <thead>
+                        <tr class="w-full bg-gray-300 text-left text-gray-600 uppercase text-sm leading-normal">
+                            <th class="py-3 px-6 border border-gray-300 text-center">N°</th>
+                            <th class="py-3 px-6 border border-gray-300 text-center">Nombre de Usuario</th>
+                            <th class="py-3 px-6 border border-gray-300 text-center">Edicion</th>
+                            <th class="py-3 px-6 border border-gray-300 text-center">Eliminacion</th>
+                            <th class="py-3 px-6 border border-gray-300 text-center">Acciones</th>
+                        </tr>
+                    </thead>
+                    <tbody class="text-gray-700 text-sm" id="tbodyUsuarios">
+                        <!-- Aquí van las filas de usuarios -->
+                    </tbody>
+                </table>
+                <div id="paginationUsuarios" class="flex justify-center mt-4"></div>
+            </div>
+
+
                 <!-- Productos -->
                 <div id="productos" class="hidden">
                     <div class="mb-6">
@@ -85,7 +117,7 @@
                                 <th class="py-3 px-6 border border-gray-300 text-center">Acciones</th>
                             </tr>
                         </thead>
-                        <tbody class="text-gray-700 text-sm">
+                        <tbody class="text-gray-700 text-sm tableProductos">
                             <!-- Aquí van las filas de productos -->
                         </tbody>
                     </table>
@@ -603,6 +635,7 @@
                 </form>
             </div>
         </div>
+
 
 
 

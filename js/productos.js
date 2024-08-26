@@ -42,7 +42,7 @@ async function listarTodosLosProductos() {
 
 // Función para renderizar productos con paginación
 function renderProductos(page, productos) {
-    const tbody = document.querySelector('tbody');
+    const tbody = document.querySelector('.tableProductos');
     tbody.innerHTML = '';
     const startIndex = (page - 1) * PRODUCTS_PER_PAGE;
     const endIndex = page * PRODUCTS_PER_PAGE;
