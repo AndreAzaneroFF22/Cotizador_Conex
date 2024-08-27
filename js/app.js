@@ -13,3 +13,7 @@ if (usuarioLogeado == null) {
 	window.location.href = '../index.html';
     	localStorage.removeItem("usuario");
 }
+
+if (usuarioLogeado!="ADMIN"){
+	document.getElementById("panelAdminOption").classList.add("hidden");
+}
