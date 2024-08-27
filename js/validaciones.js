@@ -10,11 +10,11 @@ async function validarAccesosModulos(usuario){
        const {CrearCotizacion,CrearProducto} = data;
          
        if(!CrearCotizacion){
-        document.getElementById("crearCotizacionPanel").classList.add("pointer-events-none");
+        document.getElementById("crearCotizacionPanel").classList.add("hidden");
        }
         
        if(!CrearProducto){
-           document.getElementById("crearProductoPanel").classList.add("pointer-events-none");
+           document.getElementById("crearProductoPanel").classList.add("hidden");
        }
 
 }
