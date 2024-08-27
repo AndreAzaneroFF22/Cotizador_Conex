@@ -9,11 +9,11 @@ async function validarAccesosModulos(usuario){
 
        const {CrearCotizacion,CrearProducto} = data;
          
-       if(CrearCotizacion){
+       if(!CrearCotizacion){
         document.getElementById("crearCotizacionPanel").classList.add("pointer-events-none");
        }
         
-       if(CrearProducto){
+       if(!CrearProducto){
            document.getElementById("crearProductoPanel").classList.add("pointer-events-none");
        }
 
