@@ -6,14 +6,5 @@ import './cotizaciones.js';
 import './listaCotizaciones.js';
 import './cerrarSesion.js';
 import './administración.js';
+import './validaciones.js';
 
-let usuarioLogeado = localStorage.getItem("usuario");
-
-if (usuarioLogeado == null) {
-	window.location.href = '../index.html';
-    	localStorage.removeItem("usuario");
-}
-
-if (usuarioLogeado!="ADMIN"){
-	document.getElementById("panelAdminOption").classList.add("hidden");
-}
