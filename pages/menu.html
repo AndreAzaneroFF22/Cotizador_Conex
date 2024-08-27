@@ -493,6 +493,83 @@
             </div>
         </main>
 
+ 
+        <div id="editUsuarioModal" class="hidden fixed inset-0 bg-gray-800 bg-opacity-75 flex items-center justify-center">
+            <div class="bg-white p-8 rounded-lg shadow-md w-full max-w-md">
+                <h2 class="text-2xl font-bold mb-6 text-center">Editar Usuario</h2>
+                <form id="editUsuarioForm">
+                    <div class="mb-4">
+                        <label  class="block text-gray-700">Usuario:</label>
+                        <input type="text" id="edicionNombreUsuario" required class="w-full px-3 py-2 border rounded" disabled>
+                    </div>
+                    <div class="mb-4">
+                        <label  class="block text-gray-700">Contraseña:</label>
+                        <input type="text" id="edicionContraUsuario"  class="w-full px-3 py-2 border rounded" required>
+                    </div>
+                    <div class="mb-4">
+                        <div class="space-y-6 p-4 bg-white shadow-md rounded-md">
+                            <label class="block text-lg font-medium text-gray-700">Permisos:</label>
+                            <div class="space-y-4">
+                                <div class="flex items-center space-x-4">
+                                    <label for="crearCotizacion" class="w-40 text-gray-600">Crear Cotización</label>
+                                    <div class="flex items-center space-x-2">
+                                        <input type="radio" id="edicionCrearCotizacionSi" name="edicionCrearCotizacion" class="form-radio text-blue-600" value="true">
+                                        <label for="crearCotizacionSi" class="text-gray-700">Sí</label>
+                                    </div>
+                                    <div class="flex items-center space-x-2">
+                                        <input type="radio" id="edicionCrearCotizacionNo" checked name="edicionCrearCotizacion" class="form-radio text-blue-600" value="false">
+                                        <label for="crearCotizacionNo" class="text-gray-700">No</label>
+                                    </div>
+                                </div>
+                                <div class="flex items-center space-x-4">
+                                    <label for="editarCotizacion" class="w-40 text-gray-600">Editar Cotización</label>
+                                    <div class="flex items-center space-x-2">
+                                        <input type="radio" id="edicionEditarCotizacionSi" name="edicionEditarCotizacion" class="form-radio text-blue-600" value="true">
+                                        <label for="editarCotizacionSi" class="text-gray-700">Sí</label>
+                                    </div>
+                                    <div class="flex items-center space-x-2">
+                                        <input type="radio" id="edicionEditarCotizacionNo" name="edicionEditarCotizacion" checked class="form-radio text-blue-600" value="false" >
+                                        <label for="editarCotizacionNo" class="text-gray-700">No</label>
+                                    </div>
+                                </div>
+                                <div class="flex items-center space-x-4">
+                                    <label for="crearProducto" class="w-40 text-gray-600">Crear Producto</label>
+                                    <div class="flex items-center space-x-2">
+                                        <input type="radio" id="edicionCrearProductoSi" name="edicionCrearProducto"  class="form-radio text-blue-600" value="true">
+                                        <label for="crearProductoSi" class="text-gray-700">Sí</label>
+                                    </div>
+                                    <div class="flex items-center space-x-2">
+                                        <input type="radio" id="edicionCrearProductoNo" name="edicionCrearProducto" checked class="form-radio text-blue-600" value="false">
+                                        <label for="crearProductoNo" class="text-gray-700">No</label>
+                                    </div>
+                                </div>
+                                <div class="flex items-center space-x-4">
+                                    <label for="editarProducto" class="w-40 text-gray-600">Editar Producto</label>
+                                    <div class="flex items-center space-x-2">
+                                        <input type="radio" id="edicionEditarProductoSi" name="edicionEditarProducto" class="form-radio text-blue-600" value="true">
+                                        <label for="editarProductoSi" class="text-gray-700">Sí</label>
+                                    </div>
+                                    <div class="flex items-center space-x-2">
+                                        <input type="radio" id="edicionEditarProductoNo" name="edicionEditarProducto" checked class="form-radio text-blue-600" value="false">
+                                        <label for="editarProductoNo" class="text-gray-700">No</label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="mb-4">
+                        <label for="editActivo" class="block text-gray-700">Activo:</label>
+                        <input type="checkbox" id="edicionEstadoUsuario" name="edicionActivo" checked class="w-full px-3 py-2 border rounded">
+                    </div>
+                    <div class="flex justify-end">
+                        <button type="button" id="closeEditUsuarioModal" class="bg-red-500 text-white px-4 py-2 rounded mr-2">Cancelar</button>
+                        <button type="submit" class="bg-blue-500 text-white px-4 py-2 rounded">Actualizar Usuario</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+
         <div id="editProductModal" class="hidden fixed inset-0 bg-gray-800 bg-opacity-75 flex items-center justify-center">
             <div class="bg-white p-8 rounded-lg shadow-md w-full max-w-md">
                 <h2 class="text-2xl font-bold mb-6 text-center">Editar Producto</h2>
