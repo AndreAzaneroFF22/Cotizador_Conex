@@ -31,7 +31,7 @@ function renderClientes(page, clientes) {
 
         const tipdocCell = document.createElement('td');
         tipdocCell.classList.add('py-3', 'px-6','border', 'border-gray-300');
-        tipdocCell.textContent = cliente.TipDoc;
+        tipdocCell.textContent = cliente.TipDoc=="02"?"RUC":"DNI";
         row.appendChild(tipdocCell);
 
         const ndocCell = document.createElement('td');
