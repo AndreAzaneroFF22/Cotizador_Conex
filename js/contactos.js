@@ -1,7 +1,7 @@
 document.addEventListener('DOMContentLoaded', function () {
-    const clientesApiUrl = 'https://www.pruebaconex.somee.com/api/clientes';
-    const contactosxclientAPI = 'https://www.pruebaconex.somee.com/api/contactos/cliente/';
-    const contactoAPI = 'https://www.pruebaconex.somee.com/api/contactos/';
+    const clientesApiUrl = 'https://apiconexcot.somee.com/api/clientes';
+    const contactosxclientAPI = 'https://apiconexcot.somee.com/api/contactos/cliente/';
+    const contactoAPI = 'https://apiconexcot.somee.com/api/contactos/';
 
     const clienteSelect = document.getElementById('clienteSelect');
     const contactosTbody = document.getElementById('contactosTbody');
@@ -93,7 +93,7 @@ document.addEventListener('DOMContentLoaded', function () {
     // Function to fetch a contact by client ID
     async function mostrarContactoPorCliente(codigo) {
         try {
-            const response = await fetch(`https://www.pruebaconex.somee.com/api/contactos/${codigo}`);
+            const response = await fetch(`https://apiconexcot.somee.com/api/contactos/${codigo}`);
             if (!response.ok) throw new Error('Error al obtener el contacto');
             const contacto = await response.json();
             return contacto;

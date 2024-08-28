@@ -1,4 +1,4 @@
-const API_URL_CLIENTES = "https://www.pruebaconex.somee.com/api/clientes";
+const API_URL_CLIENTES = "https://apiconexcot.somee.com/api/clientes";
 const CLIENTES_PER_PAGE = 12;
 let currentPageClientes = 1;
 let allClientes = [];

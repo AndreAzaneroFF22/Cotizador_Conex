@@ -1,7 +1,7 @@
 
 
-const crearUsuarioApi = "https://www.pruebaconex.somee.com/api/usuario"
-const actualizarUsuarioApi = "https://www.pruebaconex.somee.com/api/usuario/"
+const crearUsuarioApi = "https://apiconexcot.somee.com/api/usuario"
+const actualizarUsuarioApi = "https://apiconexcot.somee.com/api/usuario/"
 const btnAbrirlModalCrearUsuario = document.getElementById("btnCrearUsuario");
 const btnCerrarModalUsuario = document.getElementById("btnCerrarModalCrearUsuario");
 
@@ -194,7 +194,7 @@ editUsuarioForm.addEventListener('submit', async (event) => {
 
 
 document.addEventListener('DOMContentLoaded', function() {
-    fetch('https://www.pruebaconex.somee.com/api/usuario/listar')
+    fetch('https://apiconexcot.somee.com/api/usuario/listar')
         .then(response => response.json())
         .then(data => {
             const tbodyUsuarios = document.getElementById('tbodyUsuarios');

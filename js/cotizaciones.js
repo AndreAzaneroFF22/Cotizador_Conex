@@ -1,8 +1,8 @@
 document.addEventListener('DOMContentLoaded', function() {
     
-    const clientesApiUrl = 'https://www.pruebaconex.somee.com/api/clientes';
-    const contactosApiUrl = 'https://www.pruebaconex.somee.com/api/contactos/cliente/';
-    const URL_CONTACTO = "https://www.pruebaconex.somee.com/api/contactos/";
+    const clientesApiUrl = 'https://apiconexcot.somee.com/api/clientes';
+    const contactosApiUrl = 'https://apiconexcot.somee.com/api/contactos/cliente/';
+    const URL_CONTACTO = "https://apiconexcot.somee.com/api/contactos/";
     const clienteSelect = document.getElementById('clienteCotizacionSelect');
     const clienteContactoSelect = document.getElementById("clienteContactoSelect");
     const tipoMonedaSelect = document.getElementById("tipoMonedaSelect");
@@ -13,7 +13,7 @@ document.addEventListener('DOMContentLoaded', function() {
 //    ACTUALIZA EL NUMERO CORRELATIVO DE LA COTIZACION
     function actualizarCorrelativo() {
         // Fetch and populate clients in the combobox
-        fetch("https://www.pruebaconex.somee.com/api/cotizaciones/siguiente")
+        fetch("https://apiconexcot.somee.com/api/cotizaciones/siguiente")
         .then(response => response.json())
         .then(data => {
             document.getElementById("Id_Cotizacion").value = data
@@ -182,7 +182,7 @@ clienteContactoSelect.addEventListener("change",async()=>{
         
         try {
             console.log(cotizacionData);
-            const response = await fetch("https://www.pruebaconex.somee.com/api/cotizaciones/", {
+            const response = await fetch("https://apiconexcot.somee.com/api/cotizaciones/", {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
@@ -229,7 +229,7 @@ clienteContactoSelect.addEventListener("change",async()=>{
 
 
             try {
-                const response = await fetch("https://www.pruebaconex.somee.com/api/cotizacionesdet", {
+                const response = await fetch("https://apiconexcot.somee.com/api/cotizacionesdet", {
                     method: "POST",
                     headers: {
                         "Content-Type": "application/json",
@@ -251,7 +251,7 @@ clienteContactoSelect.addEventListener("change",async()=>{
 
     async function fetchProducts() {
         try {
-            const response = await fetch('https://www.pruebaconex.somee.com/api/productos/activos');
+            const response = await fetch('https://apiconexcot.somee.com/api/productos/activos');
             const data = await response.json();
             products = data; // Store the whole product objects
         } catch (error) {

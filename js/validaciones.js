@@ -1,4 +1,4 @@
-const permisosAPI = "https://www.pruebaconex.somee.com/api/usuario?usuario="
+const permisosAPI = "https://apiconexcot.somee.com/api/usuario?usuario="
 
 
 let usuarioLogeado = localStorage.getItem("usuario");
