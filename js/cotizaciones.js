@@ -123,7 +123,7 @@ clienteContactoSelect.addEventListener("change",async()=>{
         const newRow = document.createElement('tr');
 
         newRow.innerHTML = `
-            <td class="py-2 px-4 border border-gray-300">${rowCount}</td>
+            <td class="py-2 px-4 border border-gray-300 text-center">${rowCount}</td>
             <td class="py-2 px-4 border border-gray-300 relative">
                 <input type="text" class="w-full px-3 py-2 border rounded" name="Descripcion[]" oninput="showSuggestions(this)">
                 <div class="absolute bg-white border border-gray-300 w-full max-h-40 overflow-auto z-10 hidden"></div>
