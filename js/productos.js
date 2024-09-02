@@ -65,12 +65,12 @@ function renderProductos(page, productos) {
 
         const pesoCell = document.createElement('td');
         pesoCell.classList.add('py-3', 'px-6','border', 'border-gray-300');
-        pesoCell.textContent = producto.Peso;
+        pesoCell.textContent = producto.Peso.toFixed(2);
         row.appendChild(pesoCell);
 
         const precioCell = document.createElement('td');
         precioCell.classList.add('py-3', 'px-6','border', 'border-gray-300');
-        precioCell.textContent = producto.Precio;
+        precioCell.textContent = producto.Precio.toFixed(2);
         row.appendChild(precioCell);
 
         const accionesCell = document.createElement('td');
