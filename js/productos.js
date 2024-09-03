@@ -106,8 +106,36 @@ function renderPaginacion(totalProductos, page) {
     const pagination = document.getElementById('pagination');
     pagination.innerHTML = '';
     const totalPages = Math.ceil(totalProductos / PRODUCTS_PER_PAGE);
+    const maxButtons = 8; // Máximo número de botones visibles
+    const halfMaxButtons = Math.floor(maxButtons / 2);
 
-    for (let i = 1; i <= totalPages; i++) {
+    // Botón de flecha izquierda
+    if (page > 1) {
+        const prevButton = document.createElement('button');
+        prevButton.textContent = '◀';
+        prevButton.classList.add('px-3', 'py-1', 'border', 'mx-1', 'rounded');
+        prevButton.addEventListener('click', () => {
+            currentPage = page - 1;
+            renderProductos(currentPage, allProductos);
+            renderPaginacion(totalProductos, currentPage);
+        });
+        pagination.appendChild(prevButton);
+    }
+
+    // Calcular el rango de botones de página para mostrar
+    let startPage = Math.max(1, page - halfMaxButtons);
+    let endPage = Math.min(totalPages, page + halfMaxButtons);
+
+    if (endPage - startPage < maxButtons - 1) {
+        if (page <= halfMaxButtons) {
+            endPage = Math.min(totalPages, startPage + maxButtons - 1);
+        } else if (page + halfMaxButtons >= totalPages) {
+            startPage = Math.max(1, endPage - maxButtons + 1);
+        }
+    }
+
+    // Crear botones de página
+    for (let i = startPage; i <= endPage; i++) {
         const button = document.createElement('button');
         button.classList.add('px-3', 'py-1', 'border', 'mx-1', 'rounded');
         if (i === page) {
@@ -116,17 +144,25 @@ function renderPaginacion(totalProductos, page) {
             button.classList.add('bg-gray-200');
             button.addEventListener('click', () => {
                 currentPage = i;
-
-                obtenerPermisos().then(() => { 
-                     renderProductos(currentPage, allProductos);
-                     renderPaginacion(totalProductos, currentPage);
-                });
-                 
-                
+                renderProductos(currentPage, allProductos);
+                renderPaginacion(totalProductos, currentPage);
             });
         }
         button.textContent = i;
         pagination.appendChild(button);
+    }
+
+    // Botón de flecha derecha
+    if (page < totalPages) {
+        const nextButton = document.createElement('button');
+        nextButton.textContent = '▶';
+        nextButton.classList.add('px-3', 'py-1', 'border', 'mx-1', 'rounded');
+        nextButton.addEventListener('click', () => {
+            currentPage = page + 1;
+            renderProductos(currentPage, allProductos);
+            renderPaginacion(totalProductos, currentPage);
+        });
+        pagination.appendChild(nextButton);
     }
 }
 
