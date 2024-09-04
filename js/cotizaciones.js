@@ -116,6 +116,13 @@ clienteContactoSelect.addEventListener("change",async()=>{
 
     });
 
+        // Aplicar la función iniTodo para formatear los inputs de precio unitario
+        function inicializarFormateoPrecios() {
+            const precioUnitarioInputs = document.querySelectorAll('input[name="P_Unit[]"]');
+            precioUnitarioInputs.forEach((input) => {
+                iniTodo(input.form.name, input.name, 2, true); // Aplicar iniTodo en cada input de precio unitario
+            });
+        }
 
     document.getElementById("addItem").addEventListener("click", () => {
         const tableBody = document.getElementById('itemsTableBody');
@@ -132,7 +139,7 @@ clienteContactoSelect.addEventListener("change",async()=>{
                 <input type="number" class="w-full px-3 py-2 border rounded cantidadItemCot"  min="1" step="1" name="Cantidad[]" oninput="calculateTotal(this)">
             </td>
             <td class="py-2 px-4 border border-gray-300">
-                <input type="number" step="0.01" class="w-full px-3 py-2 border rounded" name="P_Unit[]" disabled>
+                <input type="number" step="0.01" class="w-full px-3 py-2 border rounded" name="P_Unit[]" min="0">
             </td>
             <td class="py-2 px-4 border border-gray-300">
                 <input type="number" step="0.01" class="w-full px-3 py-2 border rounded" name="P_Total[]" disabled>
