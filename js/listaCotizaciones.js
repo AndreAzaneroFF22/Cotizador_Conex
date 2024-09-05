@@ -283,6 +283,10 @@ function llenarMonedasSelect(monedaSeleccionada) {
     monedaSelect.value = monedaSeleccionada;
 }
 
+ function formatearCadena(cadena) {
+    return cadena.replace(/"/g, '&quot;');
+}
+
 async function mostrarModalEditarCotizacion(id) {
     try {
         const cabeceraCotizacion = await mostrarCabeceraCotizacionPorId(id);
@@ -299,6 +303,8 @@ async function mostrarModalEditarCotizacion(id) {
         await llenarClientesSelect(cabeceraCotizacion[0].Cliente);
         await llenarContactosSelect(cabeceraCotizacion[0].Contacto);
 
+
+    
         document.getElementById('editar_Id_Cotizacion').value = cabeceraCotizacion[0].Id_Cotizacion;
         document.getElementById('editar_Dias_validez').value = cabeceraCotizacion[0].Dias_validez;
         document.getElementById('editar_Tipo_Cambio').value = cabeceraCotizacion[0].Tipo_Cambio;
@@ -309,12 +315,17 @@ async function mostrarModalEditarCotizacion(id) {
         const tableBody = document.getElementById('editar_itemsTableBody');
         tableBody.innerHTML = ''; 
 
+        // let cadenaFormateada = formatearCadena(cadena);
+
         detalleCotizacion.forEach((detalle, index) => {
             const newRow = document.createElement('tr');
+            let cadenaFormateada =  formatearCadena(detalle.Descripcion_Producto);
+            console.log(cadenaFormateada);
+            
             newRow.innerHTML = `
                 <td class="py-2 px-4 border border-gray-300">${index + 1}</td>
                 <td class="py-2 px-4 border border-gray-300 relative">
-                    <input type="text" class="w-full px-3 py-2 border rounded" name="Descripcion[]" value="${detalle.Descripcion_Producto}" oninput="showSuggestions(this)">
+                    <input type="text" class="w-full px-3 py-2 border rounded" name="Descripcion[]" value="${cadenaFormateada}" oninput="showSuggestions(this)">
                     <div class="absolute bg-white border border-gray-300 w-full max-h-40 overflow-auto z-10 hidden"></div>
                 </td>
                 <td class="py-2 px-4 border border-gray-300">
