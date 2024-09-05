@@ -4,6 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="../css/tailwind.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+
 </head>
 <body class="bg-gray-100 font-sans antialiased" id="elementoExportar">
 
@@ -13,12 +15,17 @@
                 <img src="../images/logo.jpeg" class="h-12 md:h-20 mb-4 md:mb-0">
                 <h5 class="italic "><strong>CONEXIONES ESPECIALIZADAS S.A.C.</strong></h5>
             </div>
+            <button id="excel" class="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded-full">
+                Excel
+            </button>
             <button id="exportar" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full">
                 Exportar
             </button>
             <button id="volver" class="bg-red-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full">
                 Volver
             </button>
+
+            
             <div class="text-center md:text-right">
                 <p class="md:text-xl font-semibold">R.U.C. 20607137651</p>
                 <h1 class="md:text-3xl font-bold text-blue-600">COTIZACIÓN</h1>
@@ -51,11 +58,10 @@
         <div class="py-2 overflow-x-auto">
             <div class="align-middle inline-block min-w-full shadow overflow-hidden sm:rounded-lg border-b border-gray-200">
 
-        <table class="min-w-full mb-8 text-sm border-collapse border border-gray-700">
+        <table class="min-w-full mb-8 text-sm border-collapse border border-gray-700" id="Detalle_Cotizacion">
             <thead class="bg-gray-300">
                 <tr>
                     <th>Item</th>
-                    <th>Código</th>
                     <th>Descripción</th>
                     <th>Cant.</th>
                     <th>P. Unit</th>

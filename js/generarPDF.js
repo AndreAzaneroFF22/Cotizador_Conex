@@ -71,10 +71,12 @@ async function pintarModeloPDF(){
             tdItem.classList.add("border","border-gray-700");
             tdItem.textContent = Item;
 
+            /*
+            se elimina el codigo
             let tdCodigo = document.createElement("td");
             tdCodigo.classList.add("border","border-gray-700");
             tdCodigo.textContent = Codigo_Producto;
-
+            */
             let tdDescripcion = document.createElement("td");
             tdDescripcion.classList.add("border","border-gray-700");
             tdDescripcion.textContent = Descripcion_Producto;
@@ -89,10 +91,10 @@ async function pintarModeloPDF(){
 
             let tdPrecioSubTotal = document.createElement("td");
             tdPrecioSubTotal.classList.add("border","border-gray-700");
-            tdPrecioSubTotal.textContent = (Number(Precio).toFixed(2)*Number(Cantidad)).toFixed(2);
+            tdPrecioSubTotal.textContent = formatNumber((Number(Precio).toFixed(2)*Number(Cantidad)).toFixed(2));
 
             trProducto.appendChild(tdItem);
-            trProducto.appendChild(tdCodigo);
+            //trProducto.appendChild(tdCodigo);
             trProducto.appendChild(tdDescripcion);
             trProducto.appendChild(tdCantidad);
             trProducto.appendChild(tdPrecioUnitario);
@@ -120,12 +122,20 @@ async function pintarModeloPDF(){
         panelValidezOferta.textContent = Dias_validez + " Días";
         panelFormaPago.textContent =  FormaPago;
 
-        panelSubTotal.textContent = simboloMoneda + Number(Base_Imponible).toFixed(2)
-        panelIGV.textContent = simboloMoneda + Number(IGV).toFixed(2)
-        panelTotal.textContent = simboloMoneda + Number(Total).toFixed(2)
+        panelSubTotal.textContent = simboloMoneda + formatNumber(Number(Base_Imponible).toFixed(2))
+        panelIGV.textContent = simboloMoneda + formatNumber(Number(IGV).toFixed(2))
+        panelTotal.textContent = simboloMoneda + formatNumber(Number(Total).toFixed(2))
 
         document.dispatchEvent(new CustomEvent('datosCargados'));
 }
 
 pintarModeloPDF();
+
+function formatNumber(value) {
+    return new Intl.NumberFormat('es-PE', {
+        style: 'decimal',
+        minimumFractionDigits: 2,
+        maximumFractionDigits: 2
+    }).format(value);
+}
 

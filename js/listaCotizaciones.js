@@ -82,7 +82,7 @@ function renderCotizaciones(page, cotizaciones) {
 
         const totalCell = document.createElement('td');
         totalCell.classList.add('py-3', 'px-6', 'border', 'border-gray-300');
-        totalCell.textContent = cotizacion.Total;
+        totalCell.textContent = formatNumber(cotizacion.Total);
         row.appendChild(totalCell);
 
         const accionesCell = document.createElement('td');
@@ -667,4 +667,12 @@ function showSuggestions(input) {
     } else {
         suggestionsBox.classList.add('hidden');
     }
+}
+
+function formatNumber(value) {
+    return new Intl.NumberFormat('es-PE', {
+        style: 'decimal',
+        minimumFractionDigits: 2,
+        maximumFractionDigits: 2
+    }).format(value);
 }
