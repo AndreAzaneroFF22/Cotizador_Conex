@@ -130,9 +130,34 @@ function renderCotizaciones(page, cotizaciones) {
 function renderPaginacion(totalCotizaciones, page) {
     const pagination = document.getElementById('paginationCotizaciones');
     pagination.innerHTML = '';
-    const totalPages = Math.ceil(totalCotizaciones / COTIZACIONES_PER_PAGE);
 
-    for (let i = 1; i <= totalPages; i++) {
+    const totalPages = Math.ceil(totalCotizaciones / COTIZACIONES_PER_PAGE);
+    const MAX_BUTTONS = 15; // Máximo número de botones visibles
+    let startPage = Math.max(1, page - Math.floor(MAX_BUTTONS / 2));
+    let endPage = startPage + MAX_BUTTONS - 1;
+
+    if (endPage > totalPages) {
+        endPage = totalPages;
+        startPage = Math.max(1, endPage - MAX_BUTTONS + 1);
+    }
+
+    // Botón "Anterior"
+    if (page > 1) {
+        const prevButton = document.createElement('button');
+        prevButton.classList.add('px-3', 'py-1', 'border', 'mx-1', 'rounded', 'bg-gray-200');
+        prevButton.textContent = '<';
+        prevButton.addEventListener('click', () => {
+            currentPage = page - 1;
+            obtenerPermisos().then(() => {
+                renderCotizaciones(currentPage, allCotizaciones);
+                renderPaginacion(totalCotizaciones, currentPage);
+            });
+        });
+        pagination.appendChild(prevButton);
+    }
+
+    // Botones de página
+    for (let i = startPage; i <= endPage; i++) {
         const button = document.createElement('button');
         button.classList.add('px-3', 'py-1', 'border', 'mx-1', 'rounded');
         if (i === page) {
@@ -141,18 +166,32 @@ function renderPaginacion(totalCotizaciones, page) {
             button.classList.add('bg-gray-200');
             button.addEventListener('click', () => {
                 currentPage = i;
-
-                 obtenerPermisos().then(() => {
-                       renderCotizaciones(currentPage, allCotizaciones);
-                       renderPaginacion(totalCotizaciones, currentPage);
-                 });
-                
+                obtenerPermisos().then(() => {
+                    renderCotizaciones(currentPage, allCotizaciones);
+                    renderPaginacion(totalCotizaciones, currentPage);
+                });
             });
         }
         button.textContent = i;
         pagination.appendChild(button);
     }
+
+    // Botón "Siguiente"
+    if (page < totalPages) {
+        const nextButton = document.createElement('button');
+        nextButton.classList.add('px-3', 'py-1', 'border', 'mx-1', 'rounded', 'bg-gray-200');
+        nextButton.textContent = '>';
+        nextButton.addEventListener('click', () => {
+            currentPage = page + 1;
+            obtenerPermisos().then(() => {
+                renderCotizaciones(currentPage, allCotizaciones);
+                renderPaginacion(totalCotizaciones, currentPage);
+            });
+        });
+        pagination.appendChild(nextButton);
+    }
 }
+
 
 async function eliminarCabeceraCotizacion(codigo) {
     try {
